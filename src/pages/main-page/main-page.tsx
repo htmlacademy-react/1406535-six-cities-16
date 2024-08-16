@@ -69,11 +69,11 @@ function MainPage({foundOffers}: MainPageProps) {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                <PlaceCard />
-                <PlaceCard />
-                <PlaceCard />
-                <PlaceCard />
-                <PlaceCard />
+                <PlaceCard prefix="cities" />
+                <PlaceCard prefix="cities" />
+                <PlaceCard prefix="cities" />
+                <PlaceCard prefix="cities" />
+                <PlaceCard prefix="cities" />
               </div>
             </section>
             <div className="cities__right-section">

@@ -1,12 +1,18 @@
-function PlaceCard() {
+type PlaceCardProps = {
+  prefix: string;
+}
+
+function PlaceCard({prefix}: PlaceCardProps) {
+  const size = prefix === 'favorites' ? [150, 110] : [260, 200];
+
   return (
-    <article className="cities__card place-card">
+    <article className={`${prefix}__card place-card`}>
       <div className="place-card__mark">
         <span>Premium</span>
       </div>
-      <div className="cities__image-wrapper place-card__image-wrapper">
+      <div className={`${prefix}__image-wrapper place-card__image-wrapper`}>
         <a href="#">
-          <img className="place-card__image" src="img/apartment-01.jpg" width="260" height="200" alt="Place image"/>
+          <img className="place-card__image" src="img/apartment-01.jpg" width={size[0]} height={size[1]} alt="Place image"/>
         </a>
       </div>
       <div className="place-card__info">

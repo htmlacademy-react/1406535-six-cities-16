@@ -15,17 +15,17 @@ function App({foundOffers}: AppProps) {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path={AppRoute.Root} element={<MainPage foundOffers={foundOffers}/>} />
+        <Route path={AppRoute.Root} element={<MainPage foundOffers={foundOffers} />} />
         <Route path={AppRoute.Login} element={<LoginPage/>} />
         <Route path={AppRoute.Favorites}
           element={
-            <PrivateRoot authorizationStatus={AuthorizationStatus.NoAuth}>
-              <FavoritesPage/>
+            <PrivateRoot authorizationStatus={AuthorizationStatus.Auth}>
+              <FavoritesPage />
             </PrivateRoot>
           }
         />
-        <Route path={AppRoute.Offer} element={<OfferPage/>} />
-        <Route path='*' element={<NotFoundPage/>} />
+        <Route path={AppRoute.Offer} element={<OfferPage />} />
+        <Route path='*' element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
   );
