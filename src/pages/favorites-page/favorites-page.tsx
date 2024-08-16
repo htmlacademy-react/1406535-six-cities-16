@@ -25,8 +25,8 @@ function FavoritesPage() {
                   </div>
                 </div>
                 <div className="favorites__places">
-                  <PlaceCard prefix="favorites" />
-                  <PlaceCard prefix="favorites" />
+                  <PlaceCard classPrefix="favorites" />
+                  <PlaceCard classPrefix="favorites" />
                 </div>
               </li>
 
@@ -39,7 +39,7 @@ function FavoritesPage() {
                   </div>
                 </div>
                 <div className="favorites__places">
-                  <PlaceCard prefix="favorites" />
+                  <PlaceCard classPrefix="favorites" />
                 </div>
               </li>
             </ul>

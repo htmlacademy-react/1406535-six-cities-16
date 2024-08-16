@@ -6,16 +6,17 @@ import FavoritesPage from '../../pages/favorites-page/favorites-page';
 import LoginPage from '../../pages/login-page/login-page';
 import OfferPage from '../../pages/offer-page/offer-page';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
+import { Offer } from '../../types';
 
 type AppProps = {
-  foundOffers: number;
+  offers: Offer[];
 }
 
-function App({foundOffers}: AppProps) {
+function App({offers}: AppProps) {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path={AppRoute.Root} element={<MainPage foundOffers={foundOffers} />} />
+        <Route path={AppRoute.Root} element={<MainPage offers={offers} />} />
         <Route path={AppRoute.Login} element={<LoginPage/>} />
         <Route path={AppRoute.Favorites}
           element={

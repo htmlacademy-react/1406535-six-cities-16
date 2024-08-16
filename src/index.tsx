@@ -1,8 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
-
-const FOUND_OFFERS = 300 as const;
+import { OFFERS } from './mocks/offers';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -10,6 +9,6 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <App foundOffers={FOUND_OFFERS}/>
+    <App offers={OFFERS} />
   </React.StrictMode>
 );

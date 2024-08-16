@@ -1,11 +1,12 @@
 import Header from '../../components/header/header';
 import PlaceCard from '../../components/place-card/place-card';
+import { Offer } from '../../types';
 
 type MainPageProps = {
-  foundOffers: number;
+  offers: Offer[];
 }
 
-function MainPage({foundOffers}: MainPageProps) {
+function MainPage({offers}: MainPageProps) {
   return (
     <div className="page page--gray page--main">
       <Header />
@@ -52,7 +53,7 @@ function MainPage({foundOffers}: MainPageProps) {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{foundOffers} places to stay in Amsterdam</b>
+              <b className="places__found">{offers.length} places to stay in Amsterdam</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
@@ -69,11 +70,7 @@ function MainPage({foundOffers}: MainPageProps) {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                <PlaceCard prefix="cities" />
-                <PlaceCard prefix="cities" />
-                <PlaceCard prefix="cities" />
-                <PlaceCard prefix="cities" />
-                <PlaceCard prefix="cities" />
+                {offers.map((offer) => <PlaceCard key={offer.id} classPrefix="cities" offer={offer} />)}
               </div>
             </section>
             <div className="cities__right-section">
