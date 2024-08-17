@@ -1,3 +1,5 @@
+import { Offer } from './types';
+
 function capitalizeFirstLetter(word: string) {
   return `${word[0].toUpperCase()}${word.slice(1)}`;
 }
@@ -6,4 +8,16 @@ function convertScoreToPercent(score: number, maxScore: number) {
   return `${Math.round(score) * 100 / maxScore}%`;
 }
 
-export { capitalizeFirstLetter, convertScoreToPercent };
+function sortFavoritesByCities(offers: Offer[]) {
+  const sortedOffers = {};
+  offers.forEach((offer) => {
+    const city = offer.city.name;
+    if (!Object.hasOwn(sortedOffers, city)) {
+      sortedOffers[city] = [];
+    }
+    sortedOffers[city].push(offer);
+  });
+  return sortedOffers;
+}
+
+export { capitalizeFirstLetter, convertScoreToPercent, sortFavoritesByCities };

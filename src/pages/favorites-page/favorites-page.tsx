@@ -1,12 +1,38 @@
+import { Offer } from '../../types';
+import { sortFavoritesByCities } from '../../utils';
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
 import PlaceCard from '../../components/place-card/place-card';
 
 type FavoritesPageProps = {
-  prefix: string;
+  offers: Offer[];
 }
 
-function FavoritesPage() {
+type FavoritesLocationProps = {
+  city: string;
+  localOffers: Offer[];
+}
+
+function FavoritesLocation({city, localOffers}: FavoritesLocationProps) {
+  return (
+    <li className="favorites__locations-items">
+      <div className="favorites__locations locations locations--current">
+        <div className="locations__item">
+          <a className="locations__item-link" href="#">
+            <span>{city}</span>
+          </a>
+        </div>
+      </div>
+      <div className="favorites__places">
+        {localOffers.map((offer) => <PlaceCard key={offer.id} offer={offer} classPrefix="favorites" />)}
+      </div>
+    </li>
+  );
+}
+
+function FavoritesPage({offers}: FavoritesPageProps) {
+  const sortedOffers = sortFavoritesByCities(offers);
+
   return (
     <div className="page">
       <Header />
@@ -16,32 +42,7 @@ function FavoritesPage() {
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
             <ul className="favorites__list">
-              <li className="favorites__locations-items">
-                <div className="favorites__locations locations locations--current">
-                  <div className="locations__item">
-                    <a className="locations__item-link" href="#">
-                      <span>Amsterdam</span>
-                    </a>
-                  </div>
-                </div>
-                <div className="favorites__places">
-                  <PlaceCard classPrefix="favorites" />
-                  <PlaceCard classPrefix="favorites" />
-                </div>
-              </li>
-
-              <li className="favorites__locations-items">
-                <div className="favorites__locations locations locations--current">
-                  <div className="locations__item">
-                    <a className="locations__item-link" href="#">
-                      <span>Cologne</span>
-                    </a>
-                  </div>
-                </div>
-                <div className="favorites__places">
-                  <PlaceCard classPrefix="favorites" />
-                </div>
-              </li>
+              {Object.entries(sortedOffers).map((item) => <FavoritesLocation key={item[0]} city={item[0]} localOffers={item[1] as Offer[]} />)}
             </ul>
           </section>
         </div>
