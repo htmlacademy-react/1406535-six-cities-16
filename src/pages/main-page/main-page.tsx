@@ -1,6 +1,6 @@
-import Header from '../../components/header/header';
-import PlaceCard from '../../components/place-card/place-card';
 import { Offer } from '../../types';
+import Header from '../../components/header/header';
+import PlacesList from '../../components/places-list/places-list';
 
 type MainPageProps = {
   offers: Offer[];
@@ -69,9 +69,7 @@ function MainPage({offers}: MainPageProps) {
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <div className="cities__places-list places__list tabs__content">
-                {offers.map((offer) => <PlaceCard key={offer.id} classPrefix="cities" offer={offer} />)}
-              </div>
+              <PlacesList offers={offers} />
             </section>
             <div className="cities__right-section">
               <section className="cities__map map"></section>

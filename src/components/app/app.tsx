@@ -1,3 +1,4 @@
+import { Offer } from '../../types';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import PrivateRoot from '../private-root/private-root';
@@ -6,7 +7,6 @@ import FavoritesPage from '../../pages/favorites-page/favorites-page';
 import LoginPage from '../../pages/login-page/login-page';
 import OfferPage from '../../pages/offer-page/offer-page';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
-import { Offer } from '../../types';
 
 type AppProps = {
   offers: Offer[];

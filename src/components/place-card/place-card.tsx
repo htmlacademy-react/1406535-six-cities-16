@@ -1,7 +1,7 @@
 import { Offer } from '../../types';
-import PremiumMark from '../small-elements/premium-mark';
-import { MAX_RATING } from '../../const';
 import { capitalizeFirstLetter, convertScoreToPercent } from '../../utils';
+import { MAX_RATING } from '../../const';
+import PremiumMark from '../small-elements/premium-mark';
 
 type PlaceCardProps = {
   offer: Offer;
@@ -13,7 +13,7 @@ function PlaceCard({offer, classPrefix}: PlaceCardProps) {
   const size = classPrefix === 'favorites' ? [150, 110] : [260, 200];
 
   return (
-    <article className={`${classPrefix}__card place-card`}>
+    <article className={`${classPrefix}__card place-card`} data-id={offer.id}>
       {isPremium ? <PremiumMark /> : null}
       <div className={`${classPrefix}__image-wrapper place-card__image-wrapper`}>
         <a href="#">
