@@ -21,3 +21,18 @@ export type Offer = {
   isPremium: boolean;
   rating: number;
 }
+
+type Host = {
+  name: string;
+  avatarUrl: string;
+  isPro: boolean;
+}
+
+export type CompleteOffer = Omit<Offer, 'previewImage'> & {
+  description: string;
+  bedrooms: number;
+  goods: [string];
+  host: Host;
+  images: [string];
+  maxAdults: number;
+}

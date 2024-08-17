@@ -1,6 +1,7 @@
 import { Offer } from '../../types';
+import { Link } from 'react-router-dom';
 import { capitalizeFirstLetter, convertScoreToPercent } from '../../utils';
-import { MAX_RATING } from '../../const';
+import { MAX_RATING, AppRoute } from '../../const';
 import PremiumMark from '../small-elements/premium-mark';
 
 type PlaceCardProps = {
@@ -40,7 +41,7 @@ function PlaceCard({offer, classPrefix}: PlaceCardProps) {
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">{title}</a>
+          <Link to={AppRoute.Offer.replace(':id', offer.id)}>{title}</Link>
         </h2>
         <p className="place-card__type">{capitalizeFirstLetter(type)}</p>
       </div>
