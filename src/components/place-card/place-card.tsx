@@ -1,21 +1,26 @@
 import { Offer } from '../../types';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { capitalizeFirstLetter, convertScoreToPercent } from '../../utils';
-import { MAX_RATING, AppRoute } from '../../const';
+import { capitalizeFirstLetter } from '../../utils';
+import { AppRoute } from '../../const';
 import PremiumMark from '../small-elements/premium-mark';
+import FavoriteMark from '../small-elements/favorite-mark';
+import Price from '../small-elements/price';
+import Rating from '../small-elements/rating';
 
 type PlaceCardProps = {
   offer: Offer;
-  classPrefix: string;
+  classPrefix: 'favorites' | 'near-places' | 'cities';
 }
 
 function PlaceCard({offer, classPrefix}: PlaceCardProps) {
   const {title, type, price, previewImage, isFavorite, isPremium, rating} = offer;
   const size = classPrefix === 'favorites' ? [150, 110] : [260, 200];
+  const [favorite, setFavorite] = useState(isFavorite);
 
   return (
     <article className={`${classPrefix}__card place-card`} data-id={offer.id}>
-      {isPremium ? <PremiumMark /> : null}
+      {isPremium ? <PremiumMark classPrefix="place-card" /> : null}
       <div className={`${classPrefix}__image-wrapper place-card__image-wrapper`}>
         <a href="#">
           <img className="place-card__image" src={previewImage} width={size[0]} height={size[1]} alt="Place image"/>
@@ -23,23 +28,10 @@ function PlaceCard({offer, classPrefix}: PlaceCardProps) {
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
-          <div className="place-card__price">
-            <b className="place-card__price-value">&euro;{price}</b>
-            <span className="place-card__price-text">&#47;&nbsp;night</span>
-          </div>
-          <button className={`${isFavorite ? 'place-card__bookmark-button--active' : null} place-card__bookmark-button button`} type="button">
-            <svg className="place-card__bookmark-icon" width="18" height="19">
-              <use xlinkHref="#icon-bookmark"></use>
-            </svg>
-            <span className="visually-hidden">To bookmarks</span>
-          </button>
+          <Price classPrefix="place-card" price={price} />
+          <FavoriteMark classPrefix="place-card" isFavorite={favorite} onClick={() => setFavorite(!favorite)}/>
         </div>
-        <div className="place-card__rating rating">
-          <div className="place-card__stars rating__stars">
-            <span style={{width: convertScoreToPercent(rating, MAX_RATING)}}></span>
-            <span className="visually-hidden">Rating</span>
-          </div>
-        </div>
+        <Rating classPrefix="place-card" rating={rating} />
         <h2 className="place-card__name">
           <Link to={AppRoute.Offer.replace(':id', offer.id)}>{title}</Link>
         </h2>

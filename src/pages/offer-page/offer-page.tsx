@@ -1,18 +1,24 @@
 import { CompleteOffer } from '../../types';
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { capitalizeFirstLetter, convertScoreToPercent } from '../../utils';
-import { MAX_RATING } from '../../const';
+import { capitalizeFirstLetter } from '../../utils';
 import Header from '../../components/header/header';
 import PlaceCard from '../../components/place-card/place-card';
+import PremiumMark from '../../components/small-elements/premium-mark';
+import FavoriteMark from '../../components/small-elements/favorite-mark';
+import Price from '../../components/small-elements/price';
+import Rating from '../../components/small-elements/rating';
+import ReviewForm from '../../components/review-form/review-form';
 import { OFFERS, singleOffer } from '../../mocks/offers';
 
 function OfferPage() {
-  const params = useParams();
-  if (params.id) {
-    // eslint-disable-next-line no-console
-    console.log(`Айди ${params.id}`);
- }
+  // const params = useParams();
+  // if (params.id) {
+  //   console.log(`Айди ${params.id}`);
+  // }
+
   const {title, isPremium, isFavorite, rating, type, goods, bedrooms, maxAdults, price, host, description, images} = singleOffer;
+  const [favorite, setFavorite] = useState(isFavorite);
 
   return (
     <div className="page">
@@ -27,36 +33,22 @@ function OfferPage() {
           </div>
           <div className="offer__container container">
             <div className="offer__wrapper">
-              {isPremium ? <div className="offer__mark"><span>Premium</span></div> : null}
+              {isPremium ? <PremiumMark classPrefix="offer" /> : null}
               <div className="offer__name-wrapper">
                 <h1 className="offer__name">{title}</h1>
-                <button className={`${isFavorite ? 'offer__bookmark-button--active' : null} offer__bookmark-button button`} type="button">
-                  <svg className="offer__bookmark-icon" width="31" height="33">
-                    <use xlinkHref="#icon-bookmark"></use>
-                  </svg>
-                  <span className="visually-hidden">To bookmarks</span>
-                </button>
+                <FavoriteMark classPrefix="offer" isFavorite={favorite} onClick={() => setFavorite(!favorite)}/>
               </div>
-              <div className="offer__rating rating">
-                <div className="offer__stars rating__stars">
-                  <span style={{width: convertScoreToPercent(rating, MAX_RATING)}}></span>
-                  <span className="visually-hidden">Rating</span>
-                </div>
-                <span className="offer__rating-value rating__value">{rating}</span>
-              </div>
+              <Rating classPrefix="offer" rating={rating} />
               <ul className="offer__features">
                 <li className="offer__feature offer__feature--entire">{capitalizeFirstLetter(type)}</li>
                 <li className="offer__feature offer__feature--bedrooms">{`${bedrooms} bedroom${bedrooms > 1 ? 's' : ''}`}</li>
                 <li className="offer__feature offer__feature--adults">{`Max ${maxAdults} adult${maxAdults > 1 ? 's' : ''}`}</li>
               </ul>
-              <div className="offer__price">
-                <b className="offer__price-value">&euro;{price}</b>
-                <span className="offer__price-text">&nbsp;night</span>
-              </div>
+              <Price classPrefix="offer" price={price} />
               <div className="offer__inside">
                 <h2 className="offer__inside-title">What&apos;s inside</h2>
                 <ul className="offer__inside-list">
-                  {goods.map((feature, index) => <li key={index} className="offer__inside-item">{capitalizeFirstLetter(feature)}</li>)}
+                  {goods.map((option, index) => <li key={index} className="offer__inside-item">{capitalizeFirstLetter(option)}</li>)}
                 </ul>
               </div>
               <div className="offer__host">
@@ -98,52 +90,7 @@ function OfferPage() {
                     </div>
                   </li>
                 </ul>
-                <form className="reviews__form form" action="#" method="post">
-                  <label className="reviews__label form__label" htmlFor="review">Your review</label>
-                  <div className="reviews__rating-form form__rating">
-                    <input className="form__rating-input visually-hidden" name="rating" value="5" id="5-stars" type="radio"/>
-                    <label htmlFor="5-stars" className="reviews__rating-label form__rating-label" title="perfect">
-                      <svg className="form__star-image" width="37" height="33">
-                        <use xlinkHref="#icon-star"></use>
-                      </svg>
-                    </label>
-
-                    <input className="form__rating-input visually-hidden" name="rating" value="4" id="4-stars" type="radio"/>
-                    <label htmlFor="4-stars" className="reviews__rating-label form__rating-label" title="good">
-                      <svg className="form__star-image" width="37" height="33">
-                        <use xlinkHref="#icon-star"></use>
-                      </svg>
-                    </label>
-
-                    <input className="form__rating-input visually-hidden" name="rating" value="3" id="3-stars" type="radio"/>
-                    <label htmlFor="3-stars" className="reviews__rating-label form__rating-label" title="not bad">
-                      <svg className="form__star-image" width="37" height="33">
-                        <use xlinkHref="#icon-star"></use>
-                      </svg>
-                    </label>
-
-                    <input className="form__rating-input visually-hidden" name="rating" value="2" id="2-stars" type="radio"/>
-                    <label htmlFor="2-stars" className="reviews__rating-label form__rating-label" title="badly">
-                      <svg className="form__star-image" width="37" height="33">
-                        <use xlinkHref="#icon-star"></use>
-                      </svg>
-                    </label>
-
-                    <input className="form__rating-input visually-hidden" name="rating" value="1" id="1-star" type="radio"/>
-                    <label htmlFor="1-star" className="reviews__rating-label form__rating-label" title="terribly">
-                      <svg className="form__star-image" width="37" height="33">
-                        <use xlinkHref="#icon-star"></use>
-                      </svg>
-                    </label>
-                  </div>
-                  <textarea className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved"></textarea>
-                  <div className="reviews__button-wrapper">
-                    <p className="reviews__help">
-                      To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
-                    </p>
-                    <button className="reviews__submit form__submit button" type="submit" disabled>Submit</button>
-                  </div>
-                </form>
+                <ReviewForm />
               </section>
             </div>
           </div>

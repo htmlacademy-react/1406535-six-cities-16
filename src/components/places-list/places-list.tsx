@@ -8,10 +8,9 @@ type PlacesListProps = {
 
 function PlacesList({offers}: PlacesListProps) {
   const [activeCard, setActiveCard] = useState(null);
-  console.log(activeCard);
 
   const mouseOverHandler = (evt: Event) => {
-    const activeId : string = evt.target.closest('.place-card')?.dataset.id || null;
+    const activeId = evt.target.closest('.place-card')?.dataset.id || null;
     setActiveCard(activeId);
   };
 

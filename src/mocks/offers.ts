@@ -180,7 +180,7 @@ export const singleOffer = {
     'longitude': 4.673877537499948,
     'zoom': 8
   },
-  'isFavorite': false,
+  'isFavorite': true,
   'isPremium': true,
   'rating': 4,
   'description': 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',

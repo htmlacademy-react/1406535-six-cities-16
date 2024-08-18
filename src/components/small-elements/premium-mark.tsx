@@ -1,7 +1,12 @@
-export default function PremiumMark() {
+type PremiumMarkProps = {
+  classPrefix: 'place-card' | 'offer';
+}
+function PremiumMark({classPrefix}: PremiumMarkProps) {
   return (
-    <div className="place-card__mark">
+    <div className={`${classPrefix}__mark`}>
       <span>Premium</span>
     </div>
   );
 }
+
+export default PremiumMark;
