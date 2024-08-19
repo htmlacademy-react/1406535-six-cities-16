@@ -1,3 +1,4 @@
+import { Offer } from '../../types';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import PrivateRoot from '../private-root/private-root';
@@ -8,24 +9,24 @@ import OfferPage from '../../pages/offer-page/offer-page';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
 
 type AppProps = {
-  foundOffers: number;
+  offers: Offer[];
 }
 
-function App({foundOffers}: AppProps) {
+function App({offers}: AppProps) {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path={AppRoute.Root} element={<MainPage foundOffers={foundOffers}/>} />
+        <Route path={AppRoute.Root} element={<MainPage offers={offers} />} />
         <Route path={AppRoute.Login} element={<LoginPage/>} />
         <Route path={AppRoute.Favorites}
           element={
-            <PrivateRoot authorizationStatus={AuthorizationStatus.NoAuth}>
-              <FavoritesPage/>
+            <PrivateRoot authorizationStatus={AuthorizationStatus.Auth}>
+              <FavoritesPage offers={offers} />
             </PrivateRoot>
           }
         />
-        <Route path={AppRoute.Offer} element={<OfferPage/>} />
-        <Route path='*' element={<NotFoundPage/>} />
+        <Route path={AppRoute.Offer} element={<OfferPage />} />
+        <Route path='*' element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
   );

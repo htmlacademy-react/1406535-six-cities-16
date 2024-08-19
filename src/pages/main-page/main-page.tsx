@@ -1,11 +1,23 @@
+import { Offer } from '../../types';
+import { useState } from 'react';
 import Header from '../../components/header/header';
-import PlaceCard from '../../components/place-card/place-card';
+import PlacesList from '../../components/places-list/places-list';
 
 type MainPageProps = {
-  foundOffers: number;
+  offers: Offer[];
 }
 
-function MainPage({foundOffers}: MainPageProps) {
+function MainPage({offers}: MainPageProps) {
+  const [activeOffer, setActiveOffer] = useState<Offer | null>(null);
+  const [activeCity, setActiveCity] = useState('Paris');
+  const localOffers = offers.filter((offer) => offer.city.name === activeCity);
+  // eslint-disable-next-line no-console
+  console.log(activeOffer, setActiveCity);
+
+  const handleOfferHover = (offer?: Offer) => {
+    setActiveOffer(offer || null);
+  };
+
   return (
     <div className="page page--gray page--main">
       <Header />
@@ -52,7 +64,7 @@ function MainPage({foundOffers}: MainPageProps) {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{foundOffers} places to stay in Amsterdam</b>
+              <b className="places__found">{localOffers.length} places to stay in {activeCity}</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
@@ -68,13 +80,7 @@ function MainPage({foundOffers}: MainPageProps) {
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <div className="cities__places-list places__list tabs__content">
-                <PlaceCard />
-                <PlaceCard />
-                <PlaceCard />
-                <PlaceCard />
-                <PlaceCard />
-              </div>
+              <PlacesList offers={localOffers} onHover={handleOfferHover} />
             </section>
             <div className="cities__right-section">
               <section className="cities__map map"></section>
