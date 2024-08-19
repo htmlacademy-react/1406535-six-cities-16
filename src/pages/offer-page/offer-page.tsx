@@ -1,4 +1,4 @@
-import { CompleteOffer } from '../../types';
+// import { CompleteOffer } from '../../types';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { capitalizeFirstLetter } from '../../utils';
@@ -12,10 +12,11 @@ import ReviewForm from '../../components/review-form/review-form';
 import { OFFERS, singleOffer } from '../../mocks/offers';
 
 function OfferPage() {
-  // const params = useParams();
-  // if (params.id) {
-  //   console.log(`Айди ${params.id}`);
-  // }
+  const params = useParams();
+  if (params.id) {
+    // eslint-disable-next-line no-console
+    console.log(`Айди ${params.id}`);
+  }
 
   const {title, isPremium, isFavorite, rating, type, goods, bedrooms, maxAdults, price, host, description, images} = singleOffer;
   const [favorite, setFavorite] = useState(isFavorite);
@@ -28,12 +29,14 @@ function OfferPage() {
         <section className="offer">
           <div className="offer__gallery-container container">
             <div className="offer__gallery">
-              {images.map((image, index) => <div key={index} className="offer__image-wrapper"><img className="offer__image" src={image} alt="Place image"/></div>)}
+              {images.map((image, index) =>
+                // eslint-disable-next-line react/no-array-index-key
+                (<div key={index} className="offer__image-wrapper"><img className="offer__image" src={image} alt="Place image"/></div>))}
             </div>
           </div>
           <div className="offer__container container">
             <div className="offer__wrapper">
-              {isPremium ? <PremiumMark classPrefix="offer" /> : null}
+              {isPremium && <PremiumMark classPrefix="offer" />}
               <div className="offer__name-wrapper">
                 <h1 className="offer__name">{title}</h1>
                 <FavoriteMark classPrefix="offer" isFavorite={favorite} onClick={() => setFavorite(!favorite)}/>
@@ -48,17 +51,19 @@ function OfferPage() {
               <div className="offer__inside">
                 <h2 className="offer__inside-title">What&apos;s inside</h2>
                 <ul className="offer__inside-list">
-                  {goods.map((option, index) => <li key={index} className="offer__inside-item">{capitalizeFirstLetter(option)}</li>)}
+                  {goods.map((option, index) =>
+                    // eslint-disable-next-line react/no-array-index-key
+                    <li key={index} className="offer__inside-item">{capitalizeFirstLetter(option)}</li>)}
                 </ul>
               </div>
               <div className="offer__host">
                 <h2 className="offer__host-title">Meet the host</h2>
                 <div className="offer__host-user user">
-                  <div className={`${host.isPro ? 'offer__avatar-wrapper--pro' : null} offer__avatar-wrapper user__avatar-wrapper`}>
+                  <div className={`${host.isPro && 'offer__avatar-wrapper--pro'} offer__avatar-wrapper user__avatar-wrapper`}>
                     <img className="offer__avatar user__avatar" src={host.avatarUrl} width="74" height="74" alt={host.name}/>
                   </div>
                   <span className="offer__user-name">{host.name}</span>
-                  {host.isPro ? <span className="offer__user-status">Pro</span> : null}
+                  {host.isPro && <span className="offer__user-status">Pro</span>}
                 </div>
                 <div className="offer__description">
                   <p className="offer__text">{description}</p>

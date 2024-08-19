@@ -6,7 +6,8 @@ function ReviewForm() {
     rating: 0,
     review: '',
   });
-  // console.log(formData);
+  // eslint-disable-next-line no-console
+  console.log(formData);
 
   const handleTextChange = (evt: { target: { name: string; value: string } }) => {
     setFormData({...formData, review: evt.target.value});

@@ -42,7 +42,7 @@ function FavoritesPage({offers}: FavoritesPageProps) {
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
             <ul className="favorites__list">
-              {Object.entries(sortedOffers).map((item) => <FavoritesLocation key={item[0]} city={item[0]} localOffers={item[1] as Offer[]} />)}
+              {Object.entries(sortedOffers).map((item) => <FavoritesLocation key={item[0]} city={item[0]} localOffers={item[1]} />)}
             </ul>
           </section>
         </div>

@@ -9,7 +9,7 @@ function convertScoreToPercent(score: number, maxScore: number) {
 }
 
 function sortFavoritesByCities(offers: Offer[]) {
-  const sortedOffers = {};
+  const sortedOffers: Record<string, Offer[]> = {};
   offers.forEach((offer) => {
     const city = offer.city.name;
     if (!Object.hasOwn(sortedOffers, city)) {

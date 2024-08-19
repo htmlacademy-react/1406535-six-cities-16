@@ -11,16 +11,20 @@ import Rating from '../small-elements/rating';
 type PlaceCardProps = {
   offer: Offer;
   classPrefix: 'favorites' | 'near-places' | 'cities';
+  onHover?: (offer?: Offer) => void;
 }
 
-function PlaceCard({offer, classPrefix}: PlaceCardProps) {
+function PlaceCard({offer, classPrefix, onHover}: PlaceCardProps) {
   const {title, type, price, previewImage, isFavorite, isPremium, rating} = offer;
   const size = classPrefix === 'favorites' ? [150, 110] : [260, 200];
   const [favorite, setFavorite] = useState(isFavorite);
 
+  const handleMouseEnter = () => onHover ? onHover(offer) : null;
+  const handleMouseLeave = () => onHover ? onHover() : null;
+
   return (
-    <article className={`${classPrefix}__card place-card`} data-id={offer.id}>
-      {isPremium ? <PremiumMark classPrefix="place-card" /> : null}
+    <article className={`${classPrefix}__card place-card`} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+      {isPremium && <PremiumMark classPrefix="place-card" />}
       <div className={`${classPrefix}__image-wrapper place-card__image-wrapper`}>
         <a href="#">
           <img className="place-card__image" src={previewImage} width={size[0]} height={size[1]} alt="Place image"/>
