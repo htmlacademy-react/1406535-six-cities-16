@@ -1,18 +1,22 @@
-import { Offer } from '../../types';
+import { Offer, City } from '../../types';
 import { useState } from 'react';
+import { PARIS } from '../../const';
 import Header from '../../components/header/header';
 import PlacesList from '../../components/places-list/places-list';
+import Map from '../../components/map/map';
 
 type MainPageProps = {
   offers: Offer[];
+  places: City[];
 }
 
-function MainPage({offers}: MainPageProps) {
+function MainPage({offers, places}: MainPageProps) {
   const [activeOffer, setActiveOffer] = useState<Offer | null>(null);
-  const [activeCity, setActiveCity] = useState('Paris');
-  const localOffers = offers.filter((offer) => offer.city.name === activeCity);
+  const [activeCityName, setActiveCityName] = useState('Amsterdam');
+  const localOffers = offers.filter((offer) => offer.city.name === activeCityName);
+  const activeCity = places.find((place) => place.name === activeCityName) || PARIS;
   // eslint-disable-next-line no-console
-  console.log(activeOffer, setActiveCity);
+  console.log(activeOffer, setActiveCityName);
 
   const handleOfferHover = (offer?: Offer) => {
     setActiveOffer(offer || null);
@@ -64,7 +68,7 @@ function MainPage({offers}: MainPageProps) {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{localOffers.length} places to stay in {activeCity}</b>
+              <b className="places__found">{localOffers.length} places to stay in {activeCityName}</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
@@ -83,7 +87,9 @@ function MainPage({offers}: MainPageProps) {
               <PlacesList offers={localOffers} onHover={handleOfferHover} />
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <section className="cities__map map" style={{backgroundImage: 'none'}}>
+                <Map city={activeCity} offers={localOffers} activeOffer={activeOffer}/>
+              </section>
             </div>
           </div>
         </div>
