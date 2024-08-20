@@ -1,4 +1,4 @@
-import { Offer } from './types';
+import { Offer, City } from './types';
 
 function capitalizeFirstLetter(word: string) {
   return `${word[0].toUpperCase()}${word.slice(1)}`;
@@ -20,4 +20,18 @@ function sortFavoritesByCities(offers: Offer[]) {
   return sortedOffers;
 }
 
-export { capitalizeFirstLetter, convertScoreToPercent, sortFavoritesByCities };
+function getCitiesArray(offers: Offer[]) {
+  const cities: City[] = [];
+  let city = null;
+
+  for (const offer of offers) {
+    if (offer.city.name === city) {
+      continue;
+    }
+    cities.push(offer.city);
+    city = offer.city.name;
+  }
+  return cities;
+}
+
+export { capitalizeFirstLetter, convertScoreToPercent, sortFavoritesByCities, getCitiesArray };

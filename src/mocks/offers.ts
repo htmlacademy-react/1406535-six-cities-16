@@ -159,6 +159,98 @@ export const OFFERS = [
     isFavorite: false,
     isPremium: true,
     rating: 2.3
+  },
+  {
+    id: 'ce9e3990-1fca-4c0b-b914-88f31de09188',
+    title: 'Tile House',
+    type: 'apartment',
+    price: 1200,
+    previewImage: 'https://16.design.htmlacademy.pro/static/hotel/15.jpg',
+    city: {
+      name: 'Amsterdam',
+      location: {
+        latitude: 52.35514938496378,
+        longitude: 4.673877537499948,
+        zoom: 8
+      }
+    },
+    location: {
+      latitude: 52.3909553943508,
+      longitude: 4.85309666406198,
+      zoom: 16
+    },
+    isFavorite: false,
+    isPremium: true,
+    rating: 5
+  },
+  {
+    id: 'ce9e3990-1fca-4c0b-b914-88f31de09189',
+    title: 'Tile House',
+    type: 'room',
+    price: 20,
+    previewImage: 'https://16.design.htmlacademy.pro/static/hotel/14.jpg',
+    city: {
+      name: 'Amsterdam',
+      location: {
+        latitude: 52.35514938496378,
+        longitude: 4.673877537499948,
+        zoom: 8
+      }
+    },
+    location: {
+      latitude: 52.3609553943508,
+      longitude: 4.85309666406198,
+      zoom: 16
+    },
+    isFavorite: true,
+    isPremium: true,
+    rating: 2.5
+  },
+  {
+    id: 'ce9e3990-1fca-4c0b-b914-88f31de09190',
+    title: 'Tile House',
+    type: 'house',
+    price: 210,
+    previewImage: 'https://16.design.htmlacademy.pro/static/hotel/13.jpg',
+    city: {
+      name: 'Amsterdam',
+      location: {
+        latitude: 52.35514938496378,
+        longitude: 4.673877537499948,
+        zoom: 8
+      }
+    },
+    location: {
+      latitude: 52.3909553943508,
+      longitude: 4.929309666406198,
+      zoom: 16
+    },
+    isFavorite: false,
+    isPremium: false,
+    rating: 1.5
+  },
+  {
+    id: 'ce9e3990-1fca-4c0b-b914-88f31de09191',
+    title: 'Tile House',
+    type: 'house',
+    price: 210,
+    previewImage: 'https://16.design.htmlacademy.pro/static/hotel/12.jpg',
+    city: {
+      name: 'Amsterdam',
+      location: {
+        latitude: 52.35514938496378,
+        longitude: 4.673877537499948,
+        zoom: 8
+      }
+    },
+    location: {
+      latitude: 52.3809553943508,
+      longitude: 4.939309666406198,
+      zoom: 16
+    },
+    isFavorite: false,
+    isPremium: false,
+    rating: 1.5
   }
 ];
 
