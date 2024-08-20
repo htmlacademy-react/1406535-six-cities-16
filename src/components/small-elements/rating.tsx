@@ -2,7 +2,7 @@ import { convertScoreToPercent } from '../../utils';
 import { MAX_RATING} from '../../const';
 
 type RatingProps = {
-  classPrefix: 'place-card' | 'offer';
+  classPrefix: 'place-card' | 'offer' | 'reviews';
   rating: number;
 }
 

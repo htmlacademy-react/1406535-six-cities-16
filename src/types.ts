@@ -22,7 +22,7 @@ export type Offer = {
   rating: number;
 }
 
-type Host = {
+export type User = {
   name: string;
   avatarUrl: string;
   isPro: boolean;
@@ -32,7 +32,15 @@ export type CompleteOffer = Omit<Offer, 'previewImage'> & {
   description: string;
   bedrooms: number;
   goods: [string];
-  host: Host;
+  host: User;
   images: [string];
   maxAdults: number;
+}
+
+export type Comment = {
+  id: string;
+  date: string;
+  user: User;
+  comment: string;
+  rating: number;
 }
