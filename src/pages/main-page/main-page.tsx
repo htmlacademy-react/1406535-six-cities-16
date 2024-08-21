@@ -1,4 +1,4 @@
-import { Offer, City } from '../../types';
+import { Offer } from '../../types';
 import { useState } from 'react';
 import { getPoint, getNumeralEnding } from '../../utils';
 import { CITIES, DEFAULT_CITY, MapHeight } from '../../const';
