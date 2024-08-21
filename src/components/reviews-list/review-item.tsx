@@ -1,8 +1,9 @@
-import { Comment } from '../../types';
+import { Review } from '../../types';
+import { getDateMY, getDateYMD } from '../../utils';
 import Rating from '../small-elements/rating';
 
 type ReviewItemProps = {
-  review: Comment;
+  review: Review;
 }
 
 export default function ReviewItem({review}: ReviewItemProps) {
@@ -19,7 +20,7 @@ export default function ReviewItem({review}: ReviewItemProps) {
       <div className="reviews__info">
         <Rating classPrefix="reviews" rating={rating}/>
         <p className="reviews__text">{comment}</p>
-        <time className="reviews__time" dateTime={date.slice(0, 9)}>April 2019</time>
+        <time className="reviews__time" dateTime={getDateYMD(date)}>{getDateMY(date)}</time>
       </div>
     </li>
   );

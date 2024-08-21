@@ -1,7 +1,7 @@
 import { CompleteOffer } from '../../types';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { capitalizeFirstLetter, getPoint } from '../../utils';
+import { capitalizeFirstLetter, getPoint, getNumeralEnding, sortReviewsByDate as sortReviewsByDate } from '../../utils';
 import { MapHeight } from '../../const';
 import Header from '../../components/header/header';
 import PlaceCard from '../../components/place-card/place-card';
@@ -15,7 +15,13 @@ import Map from '../../components/map/map';
 import { OFFERS, singleOffer } from '../../mocks/offers';
 import { COMMENTS } from '../../mocks/comments';
 
-const MAX_NEAR_OFFERS = 3;
+const MaxItems = {
+  nearOffers: 3,
+  images: 6,
+  reviews: 10
+};
+
+const sortedReviews = sortReviewsByDate(COMMENTS).slice(0, MaxItems.reviews);
 
 export default function OfferPage() {
   const params = useParams();
@@ -28,7 +34,7 @@ export default function OfferPage() {
   const {title, isPremium, isFavorite, rating, type, goods, bedrooms, maxAdults, price, host, description, images} = singleOffer;
   const [favorite, setFavorite] = useState(isFavorite);
   const authorization = true;
-  const nearOffers = OFFERS.filter((offer) => offer.city.name === 'Amsterdam').slice(0, MAX_NEAR_OFFERS);
+  const nearOffers = OFFERS.filter((offer) => offer.city.name === singleOffer.city.name).slice(0, MaxItems.nearOffers);
   const nearPoints = nearOffers.map(getPoint);
   const activePoint = getPoint(singleOffer as CompleteOffer);
   nearPoints.push(activePoint);
@@ -41,7 +47,7 @@ export default function OfferPage() {
         <section className="offer">
           <div className="offer__gallery-container container">
             <div className="offer__gallery">
-              {images.map((image, index) =>
+              {images.slice(0, MaxItems.images).map((image, index) =>
                 // eslint-disable-next-line react/no-array-index-key
                 (<div key={index} className="offer__image-wrapper"><img className="offer__image" src={image} alt="Place image"/></div>))}
             </div>
@@ -56,8 +62,8 @@ export default function OfferPage() {
               <Rating classPrefix="offer" rating={rating} />
               <ul className="offer__features">
                 <li className="offer__feature offer__feature--entire">{capitalizeFirstLetter(type)}</li>
-                <li className="offer__feature offer__feature--bedrooms">{`${bedrooms} bedroom${bedrooms > 1 ? 's' : ''}`}</li>
-                <li className="offer__feature offer__feature--adults">{`Max ${maxAdults} adult${maxAdults > 1 ? 's' : ''}`}</li>
+                <li className="offer__feature offer__feature--bedrooms">{getNumeralEnding(bedrooms, 'bedroom')}</li>
+                <li className="offer__feature offer__feature--adults">Max {getNumeralEnding(maxAdults, 'adult')}</li>
               </ul>
               <Price classPrefix="offer" price={price} />
               <div className="offer__inside">
@@ -82,13 +88,13 @@ export default function OfferPage() {
                 </div>
               </div>
               <section className="offer__reviews reviews">
-                <ReviewsList reviews={COMMENTS} />
+                <ReviewsList reviews={sortedReviews} />
                 {authorization && <ReviewForm />}
               </section>
             </div>
           </div>
           <section className="offer__map map" style={{backgroundImage: 'none'}}>
-            <Map position={singleOffer.city.location} points={nearPoints} activePoint={activePoint} height={MapHeight.offerPage}/>
+            <Map position={singleOffer.city} points={nearPoints} activePoint={activePoint} height={MapHeight.offerPage}/>
           </section>
         </section>
         <div className="container">

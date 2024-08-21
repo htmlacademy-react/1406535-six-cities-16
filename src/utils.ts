@@ -1,4 +1,5 @@
-import { Offer, City, CompleteOffer } from './types';
+import dayjs from 'dayjs';
+import { Offer, CompleteOffer, Review } from './types';
 
 export function capitalizeFirstLetter(word: string) {
   return `${word[0].toUpperCase()}${word.slice(1)}`;
@@ -20,18 +21,13 @@ export function sortFavoritesByCities(offers: Offer[]) {
   return sortedOffers;
 }
 
-export function getCitiesArray(offers: Offer[]) {
-  const cities: City[] = [];
-  let city = null;
-
-  for (const offer of offers) {
-    if (offer.city.name === city) {
-      continue;
-    }
-    cities.push(offer.city);
-    city = offer.city.name;
-  }
-  return cities;
-}
-
 export const getPoint = (offer: Offer | CompleteOffer) => Object.assign(offer.location, {id: offer.id});
+
+export const getNumeralEnding = (quantity: number, item: string) => `${quantity} ${item}${quantity > 1 ? 's' : ''}`;
+
+export const sortReviewsByDate = (reviews: Review[]) =>
+  reviews.sort((firstReview, secondReview) => dayjs(secondReview?.date).valueOf() - dayjs(firstReview?.date).valueOf());
+
+export const getDateYMD = (date: string) => dayjs(date).format('YYYY-MM-DD');
+
+export const getDateMY = (date: string) => dayjs(date).format('MMMM YYYY');

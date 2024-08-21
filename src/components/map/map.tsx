@@ -1,4 +1,4 @@
-import { Location, Point } from '../../types';
+import { City, Point } from '../../types';
 import { useEffect, useRef } from 'react';
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -6,7 +6,7 @@ import { MarkerIcon } from '../../const';
 import useMap from '../../hooks/use-map';
 
 type MapProps = {
-  position: Location;
+  position: City;
   points: Point[];
   activePoint: Point | null;
   height: string;
@@ -14,7 +14,7 @@ type MapProps = {
 
 export default function Map({position, points, activePoint, height}: MapProps) {
   const mapRef = useRef(null);
-  const map = useMap(mapRef, position);
+  const map = useMap(mapRef, position.location);
 
   const createMarker = (url: string) => leaflet.icon({
     iconUrl: url,
@@ -35,7 +35,7 @@ export default function Map({position, points, activePoint, height}: MapProps) {
           .addTo(map);
       });
     }
-  }, [map, points, activePoint]);
+  }, [map, position, points, activePoint]);
 
   return (<div style={{height: height, maxHeight: '100%'}} ref={mapRef}></div>);
 }

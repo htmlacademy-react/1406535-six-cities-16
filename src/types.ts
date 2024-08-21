@@ -41,7 +41,7 @@ export type CompleteOffer = Omit<Offer, 'previewImage'> & {
   maxAdults: number;
 }
 
-export type Comment = {
+export type Review = {
   id: string;
   date: string;
   user: User;

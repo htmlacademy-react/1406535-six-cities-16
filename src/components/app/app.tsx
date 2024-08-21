@@ -1,6 +1,5 @@
 import { Offer } from '../../types';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { getCitiesArray } from '../../utils';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import PrivateRoot from '../private-root/private-root';
 import MainPage from '../../pages/main-page/main-page';
@@ -14,12 +13,10 @@ type AppProps = {
 }
 
 export default function App({offers}: AppProps) {
-  const places = getCitiesArray(offers);
-
   return (
     <BrowserRouter>
       <Routes>
-        <Route path={AppRoute.Root} element={<MainPage offers={offers} places={places} />} />
+        <Route path={AppRoute.Root} element={<MainPage offers={offers} />} />
         <Route path={AppRoute.Login} element={<LoginPage/>} />
         <Route path={AppRoute.Favorites}
           element={

@@ -286,6 +286,7 @@ export const singleOffer = {
     'isPro': true
   },
   'images': [
+    'https://16.design.htmlacademy.pro/static/hotel/16.jpg', 'https://16.design.htmlacademy.pro/static/hotel/14.jpg', 'https://16.design.htmlacademy.pro/static/hotel/19.jpg', 'https://16.design.htmlacademy.pro/static/hotel/16.jpg', 'https://16.design.htmlacademy.pro/static/hotel/14.jpg', 'https://16.design.htmlacademy.pro/static/hotel/19.jpg',
     'https://16.design.htmlacademy.pro/static/hotel/16.jpg', 'https://16.design.htmlacademy.pro/static/hotel/14.jpg', 'https://16.design.htmlacademy.pro/static/hotel/19.jpg', 'https://16.design.htmlacademy.pro/static/hotel/16.jpg', 'https://16.design.htmlacademy.pro/static/hotel/14.jpg', 'https://16.design.htmlacademy.pro/static/hotel/19.jpg'
   ],
   'maxAdults': 4
