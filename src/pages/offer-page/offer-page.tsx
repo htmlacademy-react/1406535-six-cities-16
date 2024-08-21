@@ -94,7 +94,7 @@ export default function OfferPage() {
             </div>
           </div>
           <section className="offer__map map" style={{backgroundImage: 'none'}}>
-            <Map position={singleOffer.city} points={nearPoints} activePoint={activePoint} height={MapHeight.offerPage}/>
+            <Map location={singleOffer.city.location} points={nearPoints} activePoint={activePoint} height={MapHeight.offerPage}/>
           </section>
         </section>
         <div className="container">

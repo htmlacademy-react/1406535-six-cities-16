@@ -1,29 +1,38 @@
-import { City, Point } from '../../types';
+import { Location, Point } from '../../types';
 import { useEffect, useRef } from 'react';
-import leaflet from 'leaflet';
+import leaflet, { LayerGroup } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { MarkerIcon } from '../../const';
 import useMap from '../../hooks/use-map';
 
 type MapProps = {
-  position: City;
+  location: Location;
   points: Point[];
   activePoint: Point | null;
   height: string;
 }
 
-export default function Map({position, points, activePoint, height}: MapProps) {
-  const mapRef = useRef(null);
-  const map = useMap(mapRef, position.location);
+const createMarker = (url: string) => leaflet.icon({
+  iconUrl: url,
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
+});
 
-  const createMarker = (url: string) => leaflet.icon({
-    iconUrl: url,
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
-  });
+export default function Map({location, points, activePoint, height}: MapProps) {
+  const mapRef = useRef(null);
+  const map = useMap(mapRef, location);
+  const markerLayer = useRef<LayerGroup>(leaflet.layerGroup());
 
   useEffect(() => {
     if (map) {
+      map.setView([location.latitude, location.longitude], location.zoom);
+      markerLayer.current.addTo(map);
+      markerLayer.current.clearLayers();
+    }
+  }, [map, location]);
+
+  useEffect(() => {
+    if (map && points) {
       points.forEach((point) => {
         leaflet
           .marker({
@@ -32,10 +41,10 @@ export default function Map({position, points, activePoint, height}: MapProps) {
           }, {
             icon: (point.id === activePoint?.id) ? createMarker(MarkerIcon.active) : createMarker(MarkerIcon.default),
           })
-          .addTo(map);
+          .addTo(markerLayer.current);
       });
     }
-  }, [map, position, points, activePoint]);
+  }, [map, points, activePoint]);
 
   return (<div style={{height: height, maxHeight: '100%'}} ref={mapRef}></div>);
 }
