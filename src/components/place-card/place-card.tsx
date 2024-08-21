@@ -14,7 +14,7 @@ type PlaceCardProps = {
   onHover?: (offer?: Offer) => void;
 }
 
-function PlaceCard({offer, classPrefix, onHover}: PlaceCardProps) {
+export default function PlaceCard({offer, classPrefix, onHover}: PlaceCardProps) {
   const {title, type, price, previewImage, isFavorite, isPremium, rating} = offer;
   const size = classPrefix === 'favorites' ? [150, 110] : [260, 200];
   const [favorite, setFavorite] = useState(isFavorite);
@@ -44,5 +44,3 @@ function PlaceCard({offer, classPrefix, onHover}: PlaceCardProps) {
     </article>
   );
 }
-
-export default PlaceCard;

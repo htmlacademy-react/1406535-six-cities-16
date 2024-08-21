@@ -3,7 +3,7 @@ type PriceProps = {
   price: number;
 }
 
-function Price({classPrefix, price}: PriceProps) {
+export default function Price({classPrefix, price}: PriceProps) {
   return (
     <div className={`${classPrefix}__price`}>
       <b className={`${classPrefix}__price-value`}>&euro;{price}</b>
@@ -13,5 +13,3 @@ function Price({classPrefix, price}: PriceProps) {
     </div>
   );
 }
-
-export default Price;

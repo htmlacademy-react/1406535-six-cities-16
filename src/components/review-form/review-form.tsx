@@ -1,13 +1,11 @@
 import { useState } from 'react';
 import ReviewRating from '../review-rating/review-rating';
 
-function ReviewForm() {
+export default function ReviewForm() {
   const [formData, setFormData] = useState({
     rating: 0,
     review: '',
   });
-  // eslint-disable-next-line no-console
-  console.log(formData);
 
   const handleTextChange = (evt: { target: { name: string; value: string } }) => {
     setFormData({...formData, review: evt.target.value});
@@ -31,5 +29,3 @@ function ReviewForm() {
     </form>
   );
 }
-
-export default ReviewForm;

@@ -30,7 +30,7 @@ function FavoritesLocation({city, localOffers}: FavoritesLocationProps) {
   );
 }
 
-function FavoritesPage({offers}: FavoritesPageProps) {
+export default function FavoritesPage({offers}: FavoritesPageProps) {
   const sortedOffers = sortFavoritesByCities(offers);
 
   return (
@@ -52,5 +52,3 @@ function FavoritesPage({offers}: FavoritesPageProps) {
     </div>
   );
 }
-
-export default FavoritesPage;

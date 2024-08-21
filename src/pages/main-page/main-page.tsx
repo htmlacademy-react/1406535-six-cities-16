@@ -1,25 +1,30 @@
-import { Offer, City } from '../../types';
+import { Offer } from '../../types';
 import { useState } from 'react';
-import { PARIS } from '../../const';
+import { getPoint, getNumeralEnding } from '../../utils';
+import { CITIES, DEFAULT_CITY, MapHeight } from '../../const';
 import Header from '../../components/header/header';
 import PlacesList from '../../components/places-list/places-list';
 import Map from '../../components/map/map';
+import LocationList from '../../components/location-list/location-list';
 
 type MainPageProps = {
   offers: Offer[];
-  places: City[];
 }
 
-function MainPage({offers, places}: MainPageProps) {
+export default function MainPage({offers}: MainPageProps) {
   const [activeOffer, setActiveOffer] = useState<Offer | null>(null);
-  const [activeCityName, setActiveCityName] = useState('Amsterdam');
-  const localOffers = offers.filter((offer) => offer.city.name === activeCityName);
-  const activeCity = places.find((place) => place.name === activeCityName) || PARIS;
-  // eslint-disable-next-line no-console
-  console.log(activeOffer, setActiveCityName);
+  const getCity = (cityName: string) => CITIES.find((city) => city.name === cityName);
+
+  const [activeCity, setActiveCity] = useState(DEFAULT_CITY);
+  const localOffers = offers.filter((offer) => offer.city.name === activeCity?.name);
+  const localPoints = localOffers.map(getPoint);
 
   const handleOfferHover = (offer?: Offer) => {
     setActiveOffer(offer || null);
+  };
+
+  const handleCityChange = (cityName: string) => {
+    setActiveCity(getCity(cityName) || DEFAULT_CITY);
   };
 
   return (
@@ -29,46 +34,13 @@ function MainPage({offers, places}: MainPageProps) {
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
-          <section className="locations container">
-            <ul className="locations__list tabs__list">
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Paris</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Cologne</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Brussels</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item tabs__item--active">
-                  <span>Amsterdam</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Hamburg</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Dusseldorf</span>
-                </a>
-              </li>
-            </ul>
-          </section>
+          <LocationList cities={CITIES} activeCity={activeCity.name} onChange={handleCityChange}/>
         </div>
         <div className="cities">
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{localOffers.length} places to stay in {activeCityName}</b>
+              <b className="places__found">{getNumeralEnding(localOffers.length, 'place')} to stay in {activeCity.name}</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
@@ -88,7 +60,7 @@ function MainPage({offers, places}: MainPageProps) {
             </section>
             <div className="cities__right-section">
               <section className="cities__map map" style={{backgroundImage: 'none'}}>
-                <Map city={activeCity} offers={localOffers} activeOffer={activeOffer}/>
+                <Map location={activeCity.location} points={localPoints} activePoint={activeOffer && getPoint(activeOffer)} height={MapHeight.mainPage} />
               </section>
             </div>
           </div>
@@ -97,5 +69,3 @@ function MainPage({offers, places}: MainPageProps) {
     </div>
   );
 }
-
-export default MainPage;

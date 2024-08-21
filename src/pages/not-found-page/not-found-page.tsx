@@ -1,7 +1,7 @@
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
 
-function NotFoundPage() {
+export default function NotFoundPage() {
   return (
     <div className="page">
       <Header />
@@ -18,6 +18,3 @@ function NotFoundPage() {
     </div>
   );
 }
-
-export default NotFoundPage;
-

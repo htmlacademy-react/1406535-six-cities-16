@@ -4,7 +4,7 @@ type FavoriteMarkProps = {
   onClick: () => void;
 }
 
-function FavoriteMark({classPrefix, isFavorite, onClick}: FavoriteMarkProps) {
+export default function FavoriteMark({classPrefix, isFavorite, onClick}: FavoriteMarkProps) {
   const size = classPrefix === 'offer' ? [31, 33] : [18, 19];
   const favoriteMark = isFavorite ? `${classPrefix}__bookmark-button--active` : null;
 
@@ -17,5 +17,3 @@ function FavoriteMark({classPrefix, isFavorite, onClick}: FavoriteMarkProps) {
     </button>
   );
 }
-
-export default FavoriteMark;
