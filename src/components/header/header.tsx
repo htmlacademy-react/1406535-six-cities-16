@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 
-function Header() {
+export default function Header() {
   return (
     <header className="header">
       <div className="container">
@@ -33,5 +33,3 @@ function Header() {
     </header>
   );
 }
-
-export default Header;

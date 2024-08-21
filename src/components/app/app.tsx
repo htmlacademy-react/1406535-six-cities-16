@@ -13,7 +13,7 @@ type AppProps = {
   offers: Offer[];
 }
 
-function App({offers}: AppProps) {
+export default function App({offers}: AppProps) {
   const places = getCitiesArray(offers);
 
   return (
@@ -34,5 +34,3 @@ function App({offers}: AppProps) {
     </BrowserRouter>
   );
 }
-
-export default App;

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import ReviewRating from '../review-rating/review-rating';
 
-function ReviewForm() {
+export default function ReviewForm() {
   const [formData, setFormData] = useState({
     rating: 0,
     review: '',
@@ -29,5 +29,3 @@ function ReviewForm() {
     </form>
   );
 }
-
-export default ReviewForm;

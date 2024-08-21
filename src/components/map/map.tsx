@@ -1,19 +1,20 @@
-import { City, Offer } from '../../types';
+import { Location, Point } from '../../types';
 import { useEffect, useRef } from 'react';
-import { LEAFLET_ICON } from '../../const';
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import { MarkerIcon } from '../../const';
 import useMap from '../../hooks/use-map';
 
 type MapProps = {
-  city: City;
-  offers: Offer[];
-  activeOffer: Offer | null;
+  position: Location;
+  points: Point[];
+  activePoint: Point | null;
+  height: string;
 }
 
-function Map({city, offers, activeOffer}: MapProps) {
+export default function Map({position, points, activePoint, height}: MapProps) {
   const mapRef = useRef(null);
-  const map = useMap(mapRef, city.location);
+  const map = useMap(mapRef, position);
 
   const createMarker = (url: string) => leaflet.icon({
     iconUrl: url,
@@ -23,20 +24,18 @@ function Map({city, offers, activeOffer}: MapProps) {
 
   useEffect(() => {
     if (map) {
-      offers.forEach((offer) => {
+      points.forEach((point) => {
         leaflet
           .marker({
-            lat: offer.location.latitude,
-            lng: offer.location.longitude,
+            lat: point.latitude,
+            lng: point.longitude,
           }, {
-            icon: (offer.id === activeOffer?.id) ? createMarker(LEAFLET_ICON.active) : createMarker(LEAFLET_ICON.default),
+            icon: (point.id === activePoint?.id) ? createMarker(MarkerIcon.active) : createMarker(MarkerIcon.default),
           })
           .addTo(map);
       });
     }
-  }, [map, offers, activeOffer]);
+  }, [map, points, activePoint]);
 
-  return (<div style={{minHeight: '794px', objectFit: 'cover'}} ref={mapRef}></div>);
+  return (<div style={{height: height, maxHeight: '100%'}} ref={mapRef}></div>);
 }
-
-export default Map;

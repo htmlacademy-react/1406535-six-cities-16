@@ -1,6 +1,7 @@
 import { Offer, City } from '../../types';
 import { useState } from 'react';
-import { PARIS } from '../../const';
+import { getPoint } from '../../utils';
+import { PARIS, MapHeight } from '../../const';
 import Header from '../../components/header/header';
 import PlacesList from '../../components/places-list/places-list';
 import Map from '../../components/map/map';
@@ -10,13 +11,12 @@ type MainPageProps = {
   places: City[];
 }
 
-function MainPage({offers, places}: MainPageProps) {
+export default function MainPage({offers, places}: MainPageProps) {
   const [activeOffer, setActiveOffer] = useState<Offer | null>(null);
   const [activeCityName, setActiveCityName] = useState('Amsterdam');
   const localOffers = offers.filter((offer) => offer.city.name === activeCityName);
+  const localPoints = localOffers.map(getPoint);
   const activeCity = places.find((place) => place.name === activeCityName) || PARIS;
-  // eslint-disable-next-line no-console
-  console.log(activeOffer, setActiveCityName);
 
   const handleOfferHover = (offer?: Offer) => {
     setActiveOffer(offer || null);
@@ -88,7 +88,7 @@ function MainPage({offers, places}: MainPageProps) {
             </section>
             <div className="cities__right-section">
               <section className="cities__map map" style={{backgroundImage: 'none'}}>
-                <Map city={activeCity} offers={localOffers} activeOffer={activeOffer}/>
+                <Map position={activeCity.location} points={localPoints} activePoint={activeOffer && getPoint(activeOffer)} height={MapHeight.mainPage} />
               </section>
             </div>
           </div>
@@ -97,5 +97,3 @@ function MainPage({offers, places}: MainPageProps) {
     </div>
   );
 }
-
-export default MainPage;

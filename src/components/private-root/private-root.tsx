@@ -6,13 +6,10 @@ type PrivateRootProps = {
   children: JSX.Element;
 }
 
-function PrivateRoot(props: PrivateRootProps) {
+export default function PrivateRoot(props: PrivateRootProps) {
   const { authorizationStatus, children } = props;
 
   return (
     authorizationStatus === AuthorizationStatus.Auth ? children : <Navigate to={AppRoute.Login} />
   );
 }
-
-export default PrivateRoot;
-

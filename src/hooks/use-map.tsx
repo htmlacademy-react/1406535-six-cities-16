@@ -3,7 +3,7 @@ import { useEffect, useState, useRef, MutableRefObject } from 'react';
 import leaflet from 'leaflet';
 import { Map } from 'leaflet';
 
-function useMap(mapRef: MutableRefObject<HTMLElement | null>, location: Location): Map | null {
+export default function useMap(mapRef: MutableRefObject<HTMLElement | null>, location: Location): Map | null {
   const [map, setMap] = useState<Map | null>(null);
   const isRenderedRef = useRef(false);
 
@@ -33,5 +33,3 @@ function useMap(mapRef: MutableRefObject<HTMLElement | null>, location: Location
 
   return map;
 }
-
-export default useMap;

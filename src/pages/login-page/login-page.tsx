@@ -1,6 +1,6 @@
 import Header from '../../components/header/header';
 
-function LoginPage() {
+export default function LoginPage() {
   return (
     <div className="page page--gray page--login">
       <Header />
@@ -33,5 +33,3 @@ function LoginPage() {
     </div>
   );
 }
-
-export default LoginPage;

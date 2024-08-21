@@ -1,14 +1,14 @@
-import { Offer, City } from './types';
+import { Offer, City, CompleteOffer } from './types';
 
-function capitalizeFirstLetter(word: string) {
+export function capitalizeFirstLetter(word: string) {
   return `${word[0].toUpperCase()}${word.slice(1)}`;
 }
 
-function convertScoreToPercent(score: number, maxScore: number) {
+export function convertScoreToPercent(score: number, maxScore: number) {
   return `${Math.round(score) * 100 / maxScore}%`;
 }
 
-function sortFavoritesByCities(offers: Offer[]) {
+export function sortFavoritesByCities(offers: Offer[]) {
   const sortedOffers: Record<string, Offer[]> = {};
   offers.forEach((offer) => {
     const city = offer.city.name;
@@ -20,7 +20,7 @@ function sortFavoritesByCities(offers: Offer[]) {
   return sortedOffers;
 }
 
-function getCitiesArray(offers: Offer[]) {
+export function getCitiesArray(offers: Offer[]) {
   const cities: City[] = [];
   let city = null;
 
@@ -34,4 +34,4 @@ function getCitiesArray(offers: Offer[]) {
   return cities;
 }
 
-export { capitalizeFirstLetter, convertScoreToPercent, sortFavoritesByCities, getCitiesArray };
+export const getPoint = (offer: Offer | CompleteOffer) => Object.assign(offer.location, {id: offer.id});

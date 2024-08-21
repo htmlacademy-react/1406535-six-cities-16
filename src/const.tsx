@@ -1,6 +1,6 @@
-export const MAX_RATING = 5;
+export const MAX_RATING = 5 as const;
 
-export const RATING_ITEMS = ['perfect', 'good', 'not bad', 'badly', 'terribly'];
+export const RATING_ITEMS = ['perfect', 'good', 'not bad', 'badly', 'terribly'] as const;
 
 export const PARIS = {
   name: 'Paris',
@@ -9,13 +9,16 @@ export const PARIS = {
     longitude: 2.351499,
     zoom: 13
   }
-};
+} as const;
 
-export const LEAFLET_ICON = {
+export const MarkerIcon = {
   default: 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg',
   active: 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/main-pin.svg',
-  size: [40, 40],
-  anchor: [20, 40],
+} as const;
+
+export const MapHeight = {
+  mainPage: '972px',
+  offerPage: '580px',
 } as const;
 
 export enum AppRoute {

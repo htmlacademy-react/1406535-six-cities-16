@@ -6,7 +6,7 @@ type RatingProps = {
   rating: number;
 }
 
-function Rating({classPrefix, rating}: RatingProps) {
+export default function Rating({classPrefix, rating}: RatingProps) {
   return (
     <div className={`${classPrefix}__rating rating`}>
       <div className={`${classPrefix}__stars rating__stars`}>
@@ -17,5 +17,3 @@ function Rating({classPrefix, rating}: RatingProps) {
     </div>
   );
 }
-
-export default Rating;

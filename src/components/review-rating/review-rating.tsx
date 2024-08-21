@@ -6,6 +6,10 @@ type RatingStarProps = {
   onChange: (evt: { target: { name: string; value: string } }) => void;
 }
 
+type ReviewRatingProps = {
+  onChange: (evt: { target: { name: string; value: string } }) => void;
+}
+
 function RatingStar({value, title, onChange}: RatingStarProps) {
   return (
     <>
@@ -19,16 +23,10 @@ function RatingStar({value, title, onChange}: RatingStarProps) {
   );
 }
 
-type ReviewRatingProps = {
-  onChange: (evt: { target: { name: string; value: string } }) => void;
-}
-
-function ReviewRating({onChange}: ReviewRatingProps) {
+export default function ReviewRating({onChange}: ReviewRatingProps) {
   return (
     <div className="reviews__rating-form form__rating">
       {RATING_ITEMS.map((item, index) => <RatingStar key={item} value={MAX_RATING - index} title={item} onChange={onChange} />)}
     </div>
   );
 }
-
-export default ReviewRating;

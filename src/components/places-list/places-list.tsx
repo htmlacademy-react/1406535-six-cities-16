@@ -6,7 +6,7 @@ type PlacesListProps = {
   onHover: (offer?: Offer) => void;
 }
 
-function PlacesList({offers, onHover}: PlacesListProps) {
+export default function PlacesList({offers, onHover}: PlacesListProps) {
 
   return (
     <div className="cities__places-list places__list tabs__content">
@@ -14,5 +14,3 @@ function PlacesList({offers, onHover}: PlacesListProps) {
     </div>
   );
 }
-
-export default PlacesList;
