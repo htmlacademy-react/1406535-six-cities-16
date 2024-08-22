@@ -14,8 +14,8 @@ type MapProps = {
 
 const createMarker = (url: string) => leaflet.icon({
   iconUrl: url,
-  iconSize: [40, 40],
-  iconAnchor: [20, 40],
+  iconSize: [28, 40],
+  iconAnchor: [14, 40],
 });
 
 export default function Map({location, points, activePoint, height}: MapProps) {
@@ -39,7 +39,7 @@ export default function Map({location, points, activePoint, height}: MapProps) {
             lat: point.latitude,
             lng: point.longitude,
           }, {
-            icon: (point.id === activePoint?.id) ? createMarker(MarkerIcon.active) : createMarker(MarkerIcon.default),
+            icon: (point.id === activePoint?.id) ? createMarker(MarkerIcon.Active) : createMarker(MarkerIcon.Default),
           })
           .addTo(markerLayer.current);
       });

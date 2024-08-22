@@ -60,7 +60,7 @@ export default function MainPage({offers}: MainPageProps) {
             </section>
             <div className="cities__right-section">
               <section className="cities__map map" style={{backgroundImage: 'none'}}>
-                <Map location={activeCity.location} points={localPoints} activePoint={activeOffer && getPoint(activeOffer)} height={MapHeight.mainPage} />
+                <Map location={activeCity.location} points={localPoints} activePoint={activeOffer && getPoint(activeOffer)} height={MapHeight.MainPage} />
               </section>
             </div>
           </div>
