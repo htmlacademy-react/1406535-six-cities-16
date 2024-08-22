@@ -4,7 +4,7 @@ export const MAX_RATING = 5 as const;
 
 export const RATING_ITEMS = ['perfect', 'good', 'not bad', 'badly', 'terribly'] as const;
 
-export const CITIES = [
+export const CITIES : City[] = [
   {
     name: 'Paris',
     location: {
@@ -53,9 +53,9 @@ export const CITIES = [
       zoom: 8
     },
   }
-];
+] as const;
 
-export const DEFAULT_CITY : City = CITIES[0] as const;
+export const DEFAULT_CITY : City = CITIES[0];
 
 export const MarkerIcon = {
   Default: '../public/img/pin.svg',
