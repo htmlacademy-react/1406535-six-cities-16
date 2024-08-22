@@ -1,30 +1,34 @@
 import { Offer } from '../../types';
 import { useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getPoint, getNumeralEnding } from '../../utils';
 import { CITIES, DEFAULT_CITY, MapHeight } from '../../const';
 import Header from '../../components/header/header';
 import PlacesList from '../../components/places-list/places-list';
 import Map from '../../components/map/map';
 import LocationList from '../../components/location-list/location-list';
+import { setCityAction } from '../../store/action';
 
 type MainPageProps = {
   offers: Offer[];
 }
 
 export default function MainPage({offers}: MainPageProps) {
+  const activeCity = useAppSelector((state) => state.activeCity);
+  const dispatch = useAppDispatch();
   const [activeOffer, setActiveOffer] = useState<Offer | null>(null);
-  const getCity = (cityName: string) => CITIES.find((city) => city.name === cityName);
 
-  const [activeCity, setActiveCity] = useState(DEFAULT_CITY);
   const localOffers = offers.filter((offer) => offer.city.name === activeCity?.name);
   const localPoints = localOffers.map(getPoint);
+
+  const getCity = (cityName: string) => CITIES.find((city) => city.name === cityName) || DEFAULT_CITY;
 
   const handleOfferHover = (offer?: Offer) => {
     setActiveOffer(offer || null);
   };
 
   const handleCityChange = (cityName: string) => {
-    setActiveCity(getCity(cityName) || DEFAULT_CITY);
+    dispatch(setCityAction(getCity(cityName)));
   };
 
   return (
@@ -60,7 +64,7 @@ export default function MainPage({offers}: MainPageProps) {
             </section>
             <div className="cities__right-section">
               <section className="cities__map map" style={{backgroundImage: 'none'}}>
-                <Map location={activeCity.location} points={localPoints} activePoint={activeOffer && getPoint(activeOffer)} height={MapHeight.mainPage} />
+                <Map location={activeCity.location} points={localPoints} activePoint={activeOffer && getPoint(activeOffer)} height={MapHeight.MainPage} />
               </section>
             </div>
           </div>
