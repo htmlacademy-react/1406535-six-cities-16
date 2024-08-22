@@ -55,7 +55,7 @@ export const CITIES: City[] = [
   }
 ] as const;
 
-export const DEFAULT_CITY: City = {
+export const DEFAULT_CITY = {
   name: 'Paris',
   location: {
     latitude: 48.85661,
