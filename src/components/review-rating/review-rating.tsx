@@ -1,32 +1,10 @@
 import { MAX_RATING, RATING_ITEMS } from '../../const';
+import RatingStar from './rating-star';
 
-type RatingStarProps = {
-  value: number;
-  title: string;
-  onChange: (evt: { target: { name: string; value: string } }) => void;
-}
-
-type ReviewRatingProps = {
-  onChange: (evt: { target: { name: string; value: string } }) => void;
-}
-
-function RatingStar({value, title, onChange}: RatingStarProps) {
-  return (
-    <>
-      <input className="form__rating-input visually-hidden" name="rating" value={value} id={`${value}-stars`} type="radio" onChange={onChange} />
-      <label htmlFor={`${value}-stars`} className="reviews__rating-label form__rating-label" title={title}>
-        <svg className="form__star-image" width="37" height="33">
-          <use xlinkHref="#icon-star"></use>
-        </svg>
-      </label>
-    </>
-  );
-}
-
-export default function ReviewRating({onChange}: ReviewRatingProps) {
+export default function ReviewRating() {
   return (
     <div className="reviews__rating-form form__rating">
-      {RATING_ITEMS.map((item, index) => <RatingStar key={item} value={MAX_RATING - index} title={item} onChange={onChange} />)}
+      {RATING_ITEMS.map((item, index) => <RatingStar key={item} value={MAX_RATING - index} title={item} />)}
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 import ReviewRating from '../review-rating/review-rating';
 
 export default function ReviewForm() {
@@ -7,19 +7,22 @@ export default function ReviewForm() {
     review: '',
   });
 
-  const handleTextChange = (evt: { target: { name: string; value: string } }) => {
-    setFormData({...formData, review: evt.target.value});
-  };
-
-  const handleInputChange = (evt: { target: { name: string; value: string } }) => {
-    setFormData({...formData, rating: Number(evt.target.value)});
+  const handleFormChange = (evt: FormEvent) => {
+    const {name, value} = evt.target as HTMLFormElement;
+    switch (name) {
+      case 'review':
+        setFormData({...formData, review: String(value)});
+        break;
+      case 'rating':
+        setFormData({...formData, rating: Number(value)});
+    }
   };
 
   return (
-    <form className="reviews__form form" action="#" method="post">
+    <form className="reviews__form form" action="#" method="post" onChange={handleFormChange}>
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
-      <ReviewRating onChange={handleInputChange} />
-      <textarea className="reviews__textarea form__textarea" id="review" value={formData.review} name="review" placeholder="Tell how was your stay, what you like and what can be improved" onChange={handleTextChange}></textarea>
+      <ReviewRating />
+      <textarea className="reviews__textarea form__textarea" id="review" defaultValue={formData.review} name="review" placeholder="Tell how was your stay, what you like and what can be improved"></textarea>
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
           To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.

@@ -57,9 +57,16 @@ export const CITIES = [
 
 export const DEFAULT_CITY = CITIES[0];
 
+export const SortingOption = {
+  Default: 'Popular',
+  PriceUp: 'Price: low to high',
+  PriceDown: 'Price: high to low',
+  TopRated: 'Top rated first',
+};
+
 export const MarkerIcon = {
-  Default: '../public/img/pin.svg',
-  Active: '../public/img/pin-active.svg',
+  Default: '../img/pin.svg',
+  Active: '../img/pin-active.svg',
 } as const;
 
 export const MapHeight = {
