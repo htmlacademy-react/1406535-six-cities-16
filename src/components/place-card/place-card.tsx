@@ -19,11 +19,8 @@ export default function PlaceCard({offer, classPrefix, onHover}: PlaceCardProps)
   const size = classPrefix === 'favorites' ? [150, 110] : [260, 200];
   const [favorite, setFavorite] = useState(isFavorite);
 
-  const handleMouseEnter = () => onHover ? onHover(offer) : null;
-  const handleMouseLeave = () => onHover ? onHover() : null;
-
   return (
-    <article className={`${classPrefix}__card place-card`} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+    <article className={`${classPrefix}__card place-card`} onMouseEnter={() => onHover && onHover(offer)} onMouseLeave={() => onHover && onHover()}>
       {isPremium && <PremiumMark classPrefix="place-card" />}
       <div className={`${classPrefix}__image-wrapper place-card__image-wrapper`}>
         <a href="#">
