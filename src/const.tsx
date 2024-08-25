@@ -74,6 +74,9 @@ export const MapHeight = {
   OfferPage: '580px',
 } as const;
 
+export const BACKEND_ROOT = 'https://16.design.htmlacademy.pro/six-cities' as const;
+export const REQUEST_TIMEOUT = 5000 as const;
+
 export enum AppRoute {
   Root = '/',
   Login = '/login',
@@ -81,8 +84,23 @@ export enum AppRoute {
   Offer = '/offer/:id',
 }
 
+export enum Endpoint {
+  Offers = '/offers',
+  Favorite = '/favorite',
+  Comments = '/comments',
+  Login = '/login',
+  Logout = '/logout',
+}
+
 export enum AuthorizationStatus {
   Auth = 'AUTH',
   NoAuth = 'NO_AUTH',
   Unknown = 'UNKNOWN',
+}
+
+export enum RequestStatus {
+  Idle = 'Idle',
+  Success = 'Success',
+  Loading = 'Loading',
+  Failed = 'Failed',
 }

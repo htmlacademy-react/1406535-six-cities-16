@@ -1,4 +1,4 @@
-import { Offer, CompleteOffer, Review } from './types';
+import { Offer, CompleteOffer, Review, Point, Location } from './types';
 import dayjs from 'dayjs';
 import { SortingOption } from './const';
 
@@ -22,7 +22,7 @@ export function sortFavoritesByCities(offers: Offer[]) {
   return sortedOffers;
 }
 
-export const getPoint = (offer: Offer | CompleteOffer) => Object.assign(offer.location, {id: offer.id});
+export const getPoint = (offer: Offer | CompleteOffer): Point => Object.assign(offer.location, {id: offer.id});
 
 export const getNumeralEnding = (quantity: number, item: string) => `${quantity} ${item}${quantity > 1 ? 's' : ''}`;
 
@@ -32,6 +32,7 @@ export const getDateYMD = (date: string) => dayjs(date).format('YYYY-MM-DD');
 export const getDateMY = (date: string) => dayjs(date).format('MMMM YYYY');
 
 export const sort = {
+  [SortingOption.Default]: (offers: Offer[]) => [...offers],
   [SortingOption.PriceDown]: (offers: Offer[]) => [...offers].sort((firstOffer, secondOffer) => secondOffer.price - firstOffer.price),
   [SortingOption.PriceUp]: (offers: Offer[]) => [...offers].sort((firstOffer, secondOffer) => firstOffer.price - secondOffer.price),
   [SortingOption.TopRated]: (offers: Offer[]) => [...offers].sort((firstOffer, secondOffer) => secondOffer.rating - firstOffer.rating),
