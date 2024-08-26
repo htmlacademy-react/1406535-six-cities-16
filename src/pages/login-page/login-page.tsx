@@ -1,8 +1,6 @@
 import { useRef, FormEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks';
 import { loginAction } from '../../store/api-action';
-import { AppRoute } from '../../const';
 import Header from '../../components/header/header';
 
 export default function LoginPage() {
@@ -10,7 +8,6 @@ export default function LoginPage() {
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
@@ -41,7 +38,6 @@ export default function LoginPage() {
                 <input ref={passwordRef} className="login__input form__input" type="password" name="password" placeholder="Password" pattern="[A-Za-z]{1,}[0-9]{1,}" required/>
               </div>
               <button className="login__submit form__submit button" type="submit">Sign in</button>
-              {/* <button className="login__submit form__submit button" type="submit" onClick={() => navigate(AppRoute.Root)}>Sign in</button> */}
             </form>
           </section>
           <section className="locations locations--login locations--current">

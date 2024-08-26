@@ -2,7 +2,7 @@ import { Offer, AuthData, UserData } from '../types';
 import { AxiosInstance } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, State } from './index';
-import { setAuthorization, fillOffers, setError, setLoadingStatus, setUserEmail } from './action';
+import { setAuthorization, fillOffers, setError, setLoadingStatus } from './action';
 import { saveToken, dropToken } from '../services/token';
 import { Endpoint, AuthorizationStatus } from '../const';
 import store from './index';
