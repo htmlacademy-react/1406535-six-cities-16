@@ -1,6 +1,6 @@
 import { Offer, City } from '../types';
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
-import { setCity, fillOffers, setAuthorization, setError, setLoadingStatus, setUserEmail } from './action';
+import { setCity, fillOffers, setAuthorization, setError, setLoadingStatus } from './action';
 import { DEFAULT_CITY, AuthorizationStatus } from '../const';
 
 type InitialState = {
