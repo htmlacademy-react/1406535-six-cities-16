@@ -6,7 +6,6 @@ import Header from '../../components/header/header';
 export default function LoginPage() {
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
-
   const dispatch = useAppDispatch();
 
   const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
