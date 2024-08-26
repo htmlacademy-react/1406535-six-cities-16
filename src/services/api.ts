@@ -1,4 +1,5 @@
-import axios, { AxiosInstance } from 'axios';
+import axios, { AxiosInstance, InternalAxiosRequestConfig } from 'axios';
+import { getToken } from './token';
 import { BACKEND_ROOT, REQUEST_TIMEOUT } from '../const';
 
 export const createAPI = (): AxiosInstance => {
@@ -6,6 +7,18 @@ export const createAPI = (): AxiosInstance => {
     baseURL: BACKEND_ROOT,
     timeout: REQUEST_TIMEOUT,
   });
+
+  api.interceptors.request.use(
+    (config: InternalAxiosRequestConfig) => {
+      const token = getToken();
+
+      if (token && config.headers) {
+        config.headers['x-token'] = token;
+      }
+
+      return config;
+    },
+  );
 
   return api;
 };
