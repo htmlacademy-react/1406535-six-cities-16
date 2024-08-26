@@ -1,6 +1,6 @@
 import { Offer, City } from '../types';
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
-import { setCity, fillOffers, setAuthorization, setError } from './action';
+import { setCity, fillOffers, setAuthorization, setError, setQuestionsDataLoadingStatus } from './action';
 import { DEFAULT_CITY, AuthorizationStatus } from '../const';
 
 type error = string | null;
@@ -8,6 +8,7 @@ type error = string | null;
 const initialState = {
   city: DEFAULT_CITY,
   offers: [] as Offer[],
+  isLoading: false,
   authStatus: AuthorizationStatus.Unknown,
   error: null as error,
 };
@@ -25,5 +26,8 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setError, (state, action: PayloadAction<error>) => {
       state.error = action.payload;
+    })
+    .addCase(setQuestionsDataLoadingStatus, (state, action: PayloadAction<boolean>) => {
+      state.isLoading = action.payload;
     });
 });

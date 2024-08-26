@@ -1,5 +1,5 @@
-import { Offer } from '../../types';
-import { useState } from 'react';
+import { Offer, Point } from '../../types';
+import { useState, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { setCity } from '../../store/action';
 import { getPoint, getNumeralEnding, sort } from '../../utils';
@@ -11,10 +11,6 @@ import LocationList from '../../components/location-list/location-list';
 import SortingList from '../../components/sorting-list/sorting-list';
 import EmptyPlacesList from '../../components/small-elements/empty-places-list';
 
-type MainPageProps = {
-  offers: Offer[];
-}
-
 type Sorting = {
   activeSort: string;
   isOpen: boolean;
@@ -25,18 +21,30 @@ const initialSorting = {
   isOpen: false,
 };
 
-export default function MainPage({offers}: MainPageProps) {
+const getCity = (cityName: string) => CITIES.find((city) => city.name === cityName) || DEFAULT_CITY;
+
+export default function MainPage() {
+  const offers = useAppSelector((state) => state.offers);
   const activeCity = useAppSelector((state) => state.city);
   const dispatch = useAppDispatch();
+
   const [activeOffer, setActiveOffer] = useState<Offer | null>(null);
-
   const [sorting, setSorting] = useState<Sorting>(initialSorting);
+  const [localOffers, setLocalOffers] = useState<Offer[]>([]);
+  const [localPoints, setLocalPoints] = useState<Point[]>([]);
+  const [sortedOffers, setSortedOffers] = useState<Offer[]>([]);
 
-  const localOffers = offers.filter((offer) => offer.city.name === activeCity?.name);
-  const localPoints = localOffers.map(getPoint);
+  useEffect(() => {
+    setLocalOffers(offers.filter((offer) => offer.city.name === activeCity.name));
+  }, [offers, activeCity]);
 
-  const getCity = (cityName: string) => CITIES.find((city) => city.name === cityName) || DEFAULT_CITY;
-  const sortedOffers = sorting.activeSort === SortingOption.Default ? localOffers : sort[sorting.activeSort](localOffers);
+  useEffect(() => {
+    setLocalPoints(localOffers.map(getPoint));
+  }, [localOffers]);
+
+  useEffect(() => {
+    setSortedOffers(sort[sorting.activeSort](localOffers));
+  }, [localOffers, sorting.activeSort]);
 
   const handleOfferHover = (offer?: Offer) => {
     setActiveOffer(offer || null);
