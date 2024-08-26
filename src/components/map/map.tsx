@@ -19,7 +19,7 @@ const createMarker = (url: string) => leaflet.icon({
 });
 
 export default function Map({points, activePoint, height}: MapProps) {
-  const location = useAppSelector((state) => state.activeCity).location;
+  const {location} = useAppSelector((state) => state.city);
   const mapRef = useRef(null);
   const map = useMap(mapRef, location);
   const markerLayer = useRef<LayerGroup>(leaflet.layerGroup());

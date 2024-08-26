@@ -6,7 +6,6 @@ import store from './store';
 import App from './components/app/app';
 import { OFFERS } from './mocks/offers';
 
-const offers = [] as Offer[];
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
