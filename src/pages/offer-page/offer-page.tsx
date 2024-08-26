@@ -12,6 +12,7 @@ import Rating from '../../components/small-elements/rating';
 import ReviewForm from '../../components/review-form/review-form';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import Map from '../../components/map/map';
+import HeaderAuth from '../../components/header/header-auth';
 import { OFFERS, singleOffer } from '../../mocks/offers';
 import { COMMENTS } from '../../mocks/comments';
 
@@ -41,7 +42,9 @@ export default function OfferPage() {
 
   return (
     <div className="page">
-      <Header />
+      <Header>
+        <HeaderAuth />
+      </Header>
 
       <main className="page__main page__main--offer">
         <section className="offer">

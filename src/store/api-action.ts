@@ -42,8 +42,9 @@ export const checkAuthAction = createAsyncThunk<void, void, {dispatch: AppDispat
 export const loginAction = createAsyncThunk<void, AuthData, {dispatch: AppDispatch; state: State; extra: AxiosInstance}>(
   'user/login',
   async (body, {dispatch, extra: api}) => {
-    const {data: {token}} = await api.post<UserData>(Endpoint.Login, body);
+    const {data: {email, token}} = await api.post<UserData>(Endpoint.Login, body);
     saveToken(token);
+    localStorage.setItem('email', email);
     dispatch(setAuthorization(AuthorizationStatus.Auth));
   },
 );
@@ -53,6 +54,7 @@ export const logoutAction = createAsyncThunk<void, void, {dispatch: AppDispatch;
   async (_, {dispatch, extra: api}) => {
     await api.delete(Endpoint.Logout);
     dropToken();
+    localStorage.removeItem('email');
     dispatch(setAuthorization(AuthorizationStatus.NoAuth));
   },
 );

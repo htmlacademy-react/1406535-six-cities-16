@@ -3,6 +3,7 @@ import { sortFavoritesByCities } from '../../utils';
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
 import PlaceCard from '../../components/place-card/place-card';
+import HeaderAuth from '../../components/header/header-auth';
 
 type FavoritesPageProps = {
   offers: Offer[];
@@ -35,7 +36,9 @@ export default function FavoritesPage({offers}: FavoritesPageProps) {
 
   return (
     <div className="page">
-      <Header />
+      <Header>
+        <HeaderAuth />
+      </Header>
 
       <main className="page__main page__main--favorites">
         <div className="page__favorites-container container">
