@@ -48,3 +48,13 @@ export type Review = {
   comment: string;
   rating: number;
 }
+
+export type AuthData = {
+  email: string;
+  password: string;
+};
+
+export type UserData = User & {
+  email: string;
+  token: string;
+};

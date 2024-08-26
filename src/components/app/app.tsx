@@ -1,5 +1,5 @@
-import { Offer } from '../../types';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { useAppSelector } from '../../hooks';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import PrivateRoot from '../private-root/private-root';
 import MainPage from '../../pages/main-page/main-page';
@@ -7,21 +7,27 @@ import FavoritesPage from '../../pages/favorites-page/favorites-page';
 import LoginPage from '../../pages/login-page/login-page';
 import OfferPage from '../../pages/offer-page/offer-page';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
+import { OFFERS } from '../../mocks/offers';
 
-type AppProps = {
-  offers: Offer[];
-}
+export default function App() {
+  const authStatus = useAppSelector((state) => state.authStatus);
+  const isLoading = useAppSelector((state) => state.isLoading);
 
-export default function App({offers}: AppProps) {
+  if (authStatus === AuthorizationStatus.Unknown || isLoading) {
+    return (
+      <p>Loading ...</p>
+    );
+  }
+
   return (
     <BrowserRouter>
       <Routes>
-        <Route path={AppRoute.Root} element={<MainPage offers={offers} />} />
+        <Route path={AppRoute.Root} element={<MainPage />} />
         <Route path={AppRoute.Login} element={<LoginPage/>} />
         <Route path={AppRoute.Favorites}
           element={
             <PrivateRoot authorizationStatus={AuthorizationStatus.Auth}>
-              <FavoritesPage offers={offers} />
+              <FavoritesPage offers={OFFERS} />
             </PrivateRoot>
           }
         />
