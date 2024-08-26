@@ -1,6 +1,28 @@
+import { useRef, FormEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '../../hooks';
+import { loginAction } from '../../store/api-action';
+import { AppRoute } from '../../const';
 import Header from '../../components/header/header';
 
 export default function LoginPage() {
+  const loginRef = useRef<HTMLInputElement | null>(null);
+  const passwordRef = useRef<HTMLInputElement | null>(null);
+
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+
+    if (loginRef.current !== null && passwordRef.current !== null) {
+      dispatch(loginAction({
+        email: loginRef.current.value,
+        password: passwordRef.current.value
+      }));
+    }
+  };
+
   return (
     <div className="page page--gray page--login">
       <Header />
@@ -9,16 +31,17 @@ export default function LoginPage() {
         <div className="page__login-container container">
           <section className="login">
             <h1 className="login__title">Sign in</h1>
-            <form className="login__form form" action="#" method="post">
+            <form className="login__form form" action="#" method="post" onSubmit={handleFormSubmit}>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
-                <input className="login__input form__input" type="email" name="email" placeholder="Email" required/>
+                <input ref={loginRef} className="login__input form__input" type="email" name="email" placeholder="Email" required/>
               </div>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">Password</label>
-                <input className="login__input form__input" type="password" name="password" placeholder="Password" required/>
+                <input ref={passwordRef} className="login__input form__input" type="password" name="password" placeholder="Password" pattern="[A-Za-z]{1,}[0-9]{1,}" required/>
               </div>
               <button className="login__submit form__submit button" type="submit">Sign in</button>
+              {/* <button className="login__submit form__submit button" type="submit" onClick={() => navigate(AppRoute.Root)}>Sign in</button> */}
             </form>
           </section>
           <section className="locations locations--login locations--current">

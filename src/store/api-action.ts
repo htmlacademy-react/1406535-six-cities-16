@@ -2,7 +2,7 @@ import { Offer, AuthData, UserData } from '../types';
 import { AxiosInstance } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, State } from './index';
-import { setAuthorization, fillOffers, setError, setLoadingStatus } from './action';
+import { setAuthorization, fillOffers, setError, setLoadingStatus, setUserEmail } from './action';
 import { saveToken, dropToken } from '../services/token';
 import { Endpoint, AuthorizationStatus } from '../const';
 import store from './index';
@@ -42,8 +42,9 @@ export const checkAuthAction = createAsyncThunk<void, void, {dispatch: AppDispat
 export const loginAction = createAsyncThunk<void, AuthData, {dispatch: AppDispatch; state: State; extra: AxiosInstance}>(
   'user/login',
   async (body, {dispatch, extra: api}) => {
-    const {data: {token}} = await api.post<UserData>(Endpoint.Login, body);
+    const {data: {email, token}} = await api.post<UserData>(Endpoint.Login, body);
     saveToken(token);
+    localStorage.setItem('email', email);
     dispatch(setAuthorization(AuthorizationStatus.Auth));
   },
 );
@@ -53,6 +54,7 @@ export const logoutAction = createAsyncThunk<void, void, {dispatch: AppDispatch;
   async (_, {dispatch, extra: api}) => {
     await api.delete(Endpoint.Logout);
     dropToken();
+    localStorage.removeItem('email');
     dispatch(setAuthorization(AuthorizationStatus.NoAuth));
   },
 );

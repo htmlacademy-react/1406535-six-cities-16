@@ -10,6 +10,7 @@ import Map from '../../components/map/map';
 import LocationList from '../../components/location-list/location-list';
 import SortingList from '../../components/sorting-list/sorting-list';
 import EmptyPlacesList from '../../components/small-elements/empty-places-list';
+import HeaderAuth from '../../components/header/header-auth';
 
 type Sorting = {
   activeSort: string;
@@ -65,7 +66,9 @@ export default function MainPage() {
 
   return (
     <div className="page page--gray page--main">
-      <Header />
+      <Header>
+        <HeaderAuth />
+      </Header>
 
       <main className={`page__main page__main--index ${!localOffers.length ? 'page__main--index-empty' : ''}`}>
         <h1 className="visually-hidden">Cities</h1>
