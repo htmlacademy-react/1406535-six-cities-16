@@ -84,3 +84,6 @@ export enum AuthorizationStatus {
   NoAuth = 'NO_AUTH',
   Unknown = 'UNKNOWN',
 }
+
+export const BACKEND_ROOT = 'https://16.design.htmlacademy.pro/six-cities' as const;
+export const REQUEST_TIMEOUT = 5000 as const;
