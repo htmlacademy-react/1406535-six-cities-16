@@ -1,8 +1,9 @@
 import { CompleteOffer } from '../../types';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { capitalizeFirstLetter, getPoint, getNumeralEnding, sortReviewsByDate as sortReviewsByDate } from '../../utils';
-import { MapHeight } from '../../const';
+import { useAppSelector } from '../../hooks';
+import { capitalizeFirstLetter, getPoint, sortReviewsByDate as sortReviewsByDate } from '../../utils';
+import { MapHeight, AuthorizationStatus } from '../../const';
 import Header from '../../components/header/header';
 import PlaceCard from '../../components/place-card/place-card';
 import PremiumMark from '../../components/small-elements/premium-mark';
@@ -13,6 +14,8 @@ import ReviewForm from '../../components/review-form/review-form';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import Map from '../../components/map/map';
 import HeaderAuth from '../../components/header/header-auth';
+import OfferFeaturesList from '../../components/small-elements/offer-features-list';
+import OfferHostUserInfo from '../../components/small-elements/offer-host-user-info';
 import { OFFERS, singleOffer } from '../../mocks/offers';
 import { COMMENTS } from '../../mocks/comments';
 
@@ -26,6 +29,7 @@ const sortedReviews = sortReviewsByDate(COMMENTS).slice(0, MaxItems.reviews);
 
 export default function OfferPage() {
   const params = useParams();
+  const authStatus = useAppSelector((state) => state.authStatus);
 
   if (params.id) {
     // eslint-disable-next-line no-console
@@ -34,7 +38,6 @@ export default function OfferPage() {
 
   const {title, isPremium, isFavorite, rating, type, goods, bedrooms, maxAdults, price, host, description, images} = singleOffer;
   const [favorite, setFavorite] = useState(isFavorite);
-  const authorization = true;
   const nearOffers = OFFERS.filter((offer) => offer.city.name === singleOffer.city.name).slice(0, MaxItems.nearOffers);
   const nearPoints = nearOffers.map(getPoint);
   const activePoint = getPoint(singleOffer as CompleteOffer);
@@ -63,11 +66,7 @@ export default function OfferPage() {
                 <FavoriteMark classPrefix="offer" isFavorite={favorite} onClick={() => setFavorite(!favorite)}/>
               </div>
               <Rating classPrefix="offer" rating={rating} />
-              <ul className="offer__features">
-                <li className="offer__feature offer__feature--entire">{capitalizeFirstLetter(type)}</li>
-                <li className="offer__feature offer__feature--bedrooms">{getNumeralEnding(bedrooms, 'bedroom')}</li>
-                <li className="offer__feature offer__feature--adults">Max {getNumeralEnding(maxAdults, 'adult')}</li>
-              </ul>
+              <OfferFeaturesList type={type} bedrooms={bedrooms} maxAdults={maxAdults} />
               <Price classPrefix="offer" price={price} />
               <div className="offer__inside">
                 <h2 className="offer__inside-title">What&apos;s inside</h2>
@@ -79,20 +78,14 @@ export default function OfferPage() {
               </div>
               <div className="offer__host">
                 <h2 className="offer__host-title">Meet the host</h2>
-                <div className="offer__host-user user">
-                  <div className={`${host.isPro && 'offer__avatar-wrapper--pro'} offer__avatar-wrapper user__avatar-wrapper`}>
-                    <img className="offer__avatar user__avatar" src={host.avatarUrl} width="74" height="74" alt={host.name}/>
-                  </div>
-                  <span className="offer__user-name">{host.name}</span>
-                  {host.isPro && <span className="offer__user-status">Pro</span>}
-                </div>
+                <OfferHostUserInfo {...host} />
                 <div className="offer__description">
                   <p className="offer__text">{description}</p>
                 </div>
               </div>
               <section className="offer__reviews reviews">
                 <ReviewsList reviews={sortedReviews} />
-                {authorization && <ReviewForm />}
+                {authStatus === AuthorizationStatus.Auth && <ReviewForm />}
               </section>
             </div>
           </div>

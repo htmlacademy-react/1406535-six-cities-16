@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { fetchOffersAction } from '../../store/api-action';
 import { AppRoute, AuthorizationStatus } from '../../const';
@@ -9,6 +9,8 @@ import FavoritesPage from '../../pages/favorites-page/favorites-page';
 import LoginPage from '../../pages/login-page/login-page';
 import OfferPage from '../../pages/offer-page/offer-page';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
+import HistoryRouter from '../history-route/history-route';
+import browserHistory from '../../browser-history';
 import { OFFERS } from '../../mocks/offers';
 
 export default function App() {
@@ -27,7 +29,7 @@ export default function App() {
   }
 
   return (
-    <BrowserRouter>
+    <HistoryRouter history={browserHistory}>
       <Routes>
         <Route path={AppRoute.Root} element={<MainPage />} />
         <Route path={AppRoute.Login}
@@ -47,6 +49,6 @@ export default function App() {
         <Route path={AppRoute.Offer} element={<OfferPage />} />
         <Route path='*' element={<NotFoundPage />} />
       </Routes>
-    </BrowserRouter>
+    </HistoryRouter>
   );
 }
