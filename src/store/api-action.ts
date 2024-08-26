@@ -2,7 +2,7 @@ import { Offer, AuthData, UserData } from '../types';
 import { AxiosInstance } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, State } from './index';
-import { setAuthorization, fillOffers, setError, setQuestionsDataLoadingStatus } from './action';
+import { setAuthorization, fillOffers, setError, setLoadingStatus } from './action';
 import { saveToken, dropToken } from '../services/token';
 import { Endpoint, AuthorizationStatus } from '../const';
 import store from './index';
@@ -20,9 +20,9 @@ export const clearErrorAction = createAsyncThunk(
 export const fetchOffersAction = createAsyncThunk<void, void, {dispatch: AppDispatch; state: State; extra: AxiosInstance}>(
   'all/fetchOffers',
   async (_, {dispatch, extra: api}) => {
-    dispatch(setQuestionsDataLoadingStatus(true));
+    dispatch(setLoadingStatus(true));
     const {data} = await api.get<Offer[]>(Endpoint.Offers);
-    dispatch(setQuestionsDataLoadingStatus(false));
+    dispatch(setLoadingStatus(false));
     dispatch(fillOffers(data));
   },
 );

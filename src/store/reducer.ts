@@ -1,6 +1,6 @@
 import { Offer, City } from '../types';
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
-import { setCity, fillOffers, setAuthorization, setError, setQuestionsDataLoadingStatus } from './action';
+import { setCity, fillOffers, setAuthorization, setError, setLoadingStatus } from './action';
 import { DEFAULT_CITY, AuthorizationStatus } from '../const';
 
 type error = string | null;
@@ -27,7 +27,7 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(setError, (state, action: PayloadAction<error>) => {
       state.error = action.payload;
     })
-    .addCase(setQuestionsDataLoadingStatus, (state, action: PayloadAction<boolean>) => {
+    .addCase(setLoadingStatus, (state, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;
     });
 });
