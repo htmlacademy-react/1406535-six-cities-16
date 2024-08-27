@@ -15,7 +15,7 @@ export default function HeaderAuth() {
     dispatch(logoutAction());
   };
 
-  if (authStatus !== AuthorizationStatus.Auth) {
+  if (authStatus !== AuthorizationStatus.Auth || userInfo === null) {
     return (
       <nav className="header__nav">
         <ul className="header__nav-list">

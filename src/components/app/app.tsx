@@ -11,7 +11,6 @@ import OfferPage from '../../pages/offer-page/offer-page';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../browser-history';
-import { OFFERS } from '../../mocks/offers';
 
 export default function App() {
   const authStatus = useAppSelector(getAuthStatus);
@@ -26,7 +25,7 @@ export default function App() {
       <Routes>
         <Route path={AppRoute.Root} element={<MainPage />} />
         <Route path={AppRoute.Login} element={<LoginPage />} />
-        <Route path={AppRoute.Favorites} element={<PrivateRoot><FavoritesPage offers={OFFERS} /></PrivateRoot>} />
+        <Route path={AppRoute.Favorites} element={<PrivateRoot><FavoritesPage /></PrivateRoot>} />
         <Route path={AppRoute.Offer} element={<OfferPage />} />
         <Route path='*' element={<NotFoundPage />} />
       </Routes>

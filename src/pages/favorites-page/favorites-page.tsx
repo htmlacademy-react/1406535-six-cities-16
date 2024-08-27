@@ -4,10 +4,7 @@ import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
 import PlaceCard from '../../components/place-card/place-card';
 import HeaderAuth from '../../components/header/header-auth';
-
-type FavoritesPageProps = {
-  offers: Offer[];
-}
+import { OFFERS } from '../../mocks/offers';
 
 type FavoritesLocationProps = {
   city: string;
@@ -31,8 +28,8 @@ function FavoritesLocation({city, localOffers}: FavoritesLocationProps) {
   );
 }
 
-export default function FavoritesPage({offers}: FavoritesPageProps) {
-  const sortedOffers = sortFavoritesByCities(offers);
+export default function FavoritesPage() {
+  const sortedOffers = sortFavoritesByCities(OFFERS);
 
   return (
     <div className="page">
