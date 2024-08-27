@@ -25,6 +25,7 @@ export default function App() {
       <Routes>
         <Route path={AppRoute.Root} element={<MainPage />} />
         <Route path={AppRoute.Login} element={<LoginPage />} />
+        <Route path={AppRoute.Login} element={<PrivateRoot noAuth><LoginPage /></PrivateRoot>} />
         <Route path={AppRoute.Favorites} element={<PrivateRoot><FavoritesPage /></PrivateRoot>} />
         <Route path={AppRoute.Offer} element={<OfferPage />} />
         <Route path='*' element={<NotFoundPage />} />
