@@ -1,14 +1,24 @@
-import { Offer, AuthData, UserData, UserInfo } from '../types';
-import { AxiosInstance } from 'axios';
-import { createAsyncThunk } from '@reduxjs/toolkit';
+import { Offer, AuthData, UserData } from '../types';
 import { AppDispatch, State } from './types';
+import { createAsyncThunk, createAction } from '@reduxjs/toolkit';
+import { AxiosInstance } from 'axios';
 import { saveToken, dropToken } from '../services/token';
-import { Endpoint } from '../const';
+import { Endpoint, AppRoute } from '../const';
+
+export const redirectToRoute = createAction<AppRoute>('redirectToRoute');
 
 export const fetchOffersAction = createAsyncThunk<Offer[], void, {dispatch: AppDispatch; state: State; extra: AxiosInstance}>(
   'DATA/fetchOffers',
   async (_, { extra: api }) => {
     const {data} = await api.get<Offer[]>(Endpoint.Offers);
+    return data;
+  },
+);
+
+export const fetchFavoriteAction = createAsyncThunk<Offer[], void, {dispatch: AppDispatch; state: State; extra: AxiosInstance}>(
+  'DATA/fetchFavorite',
+  async (_, { extra: api }) => {
+    const {data} = await api.get<Offer[]>(Endpoint.Favorite);
     return data;
   },
 );
@@ -20,13 +30,14 @@ export const checkAuthAction = createAsyncThunk<void, void, {dispatch: AppDispat
   },
 );
 
-export const loginAction = createAsyncThunk<UserInfo, AuthData, {dispatch: AppDispatch; state: State; extra: AxiosInstance}>(
+export const loginAction = createAsyncThunk<UserData, AuthData, {dispatch: AppDispatch; state: State; extra: AxiosInstance}>(
   'USER/login',
-  async (body, { extra: api }) => {
+  async (body, { dispatch, extra: api }) => {
     const {data} = await api.post<UserData>(Endpoint.Login, body);
     saveToken(data.token);
-    delete data.token;
-    return data as UserInfo;
+    dispatch(redirectToRoute(AppRoute.Root));
+    dispatch(fetchFavoriteAction());
+    return {...data, token: 'dummy-token'};
   },
 );
 

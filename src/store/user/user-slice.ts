@@ -4,7 +4,7 @@ import { UserSlice } from '../types';
 import { checkAuthAction, loginAction, logoutAction } from '../api-action';
 
 const initialState: UserSlice = {
-  info: undefined,
+  info: null,
   authorizationStatus: AuthorizationStatus.Unknown,
 };
 
@@ -29,7 +29,7 @@ export const userSlice = createSlice({
       })
       .addCase(logoutAction.fulfilled, (state) => {
         state.authorizationStatus = AuthorizationStatus.NoAuth;
-        state.info = undefined;
+        state.info = null;
       });
   }
 });

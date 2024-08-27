@@ -1,6 +1,5 @@
 import { DataSlice } from '../types';
-import { createSlice } from '@reduxjs/toolkit';
-import { PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { fetchOffersAction } from '../api-action';
 import { NameSpace, RequestStatus, DEFAULT_CITY } from '../../const';
 import { City } from '../../types';

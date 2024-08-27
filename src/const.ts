@@ -100,7 +100,7 @@ export enum Endpoint {
 export enum NameSpace {
   Data = 'DATA',
   Offer = 'OFFER',
-  Favorites = 'FAVORITES',
+  Favorite = 'FAVORITE',
   User = 'USER',
 }
 
