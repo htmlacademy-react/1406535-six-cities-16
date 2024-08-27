@@ -41,7 +41,7 @@ export default function HeaderAuth() {
           </Link>
         </li>
         <li className="header__nav-item" onClick={handleLogoutClick}>
-          <a className="header__nav-link" href="#">
+          <a className="header__nav-link">
             <span className="header__signout">Sign out</span>
           </a>
         </li>

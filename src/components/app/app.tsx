@@ -1,7 +1,5 @@
-import { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { useAppSelector, useAppDispatch } from '../../hooks';
-import { fetchOffersAction } from '../../store/api-action';
+import { useAppSelector } from '../../hooks';
 import { getAuthStatus } from '../../store/user/selectors';
 import { getOffersStatus } from '../../store/data/selectors';
 import { AppRoute, AuthorizationStatus, RequestStatus } from '../../const';
@@ -20,9 +18,7 @@ export default function App() {
   const isLoading = useAppSelector(getOffersStatus);
 
   if (authStatus === AuthorizationStatus.Unknown || isLoading === RequestStatus.Loading) {
-    return (
-      <p>Loading ...</p>
-    );
+    return (<p>Loading ...</p>);
   }
 
   return (
@@ -30,13 +26,7 @@ export default function App() {
       <Routes>
         <Route path={AppRoute.Root} element={<MainPage />} />
         <Route path={AppRoute.Login} element={<LoginPage />} />
-        <Route path={AppRoute.Favorites}
-          element={
-            <PrivateRoot sign="private">
-              <FavoritesPage offers={OFFERS} />
-            </PrivateRoot>
-          }
-        />
+        <Route path={AppRoute.Favorites} element={<PrivateRoot><FavoritesPage offers={OFFERS} /></PrivateRoot>} />
         <Route path={AppRoute.Offer} element={<OfferPage />} />
         <Route path='*' element={<NotFoundPage />} />
       </Routes>

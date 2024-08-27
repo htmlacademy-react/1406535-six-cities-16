@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 
-
 export default function HeaderLogo() {
   return (
     <div className="header__left">
