@@ -1,5 +1,6 @@
 import { Navigate } from 'react-router-dom';
 import { useAppSelector } from '../../hooks';
+import { getAuthStatus } from '../../store/user/selectors';
 import { AppRoute, AuthorizationStatus } from '../../const';
 
 type PrivateRootProps = {
@@ -9,7 +10,7 @@ type PrivateRootProps = {
 
 export default function PrivateRoot(props: PrivateRootProps) {
   const {sign, children} = props;
-  const authStatus = useAppSelector((state) => state.authStatus);
+  const authStatus = useAppSelector(getAuthStatus);
 
   switch (sign) {
     case 'common':

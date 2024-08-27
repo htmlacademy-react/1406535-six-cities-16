@@ -1,49 +1,39 @@
-import { Offer, AuthData, UserData } from '../types';
+import { Offer, AuthData, UserData, UserInfo } from '../types';
 import { AxiosInstance } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { AppDispatch, State } from './index';
-import { setAuthorization, fillOffers, setLoadingStatus } from './action';
+import { AppDispatch, State } from './types';
 import { saveToken, dropToken } from '../services/token';
-import { Endpoint, AuthorizationStatus } from '../const';
+import { Endpoint } from '../const';
 
-export const fetchOffersAction = createAsyncThunk<void, void, {dispatch: AppDispatch; state: State; extra: AxiosInstance}>(
-  'all/fetchOffers',
-  async (_, {dispatch, extra: api}) => {
-    dispatch(setLoadingStatus(true));
+export const fetchOffersAction = createAsyncThunk<Offer[], void, {dispatch: AppDispatch; state: State; extra: AxiosInstance}>(
+  'DATA/fetchOffers',
+  async (_, { extra: api }) => {
     const {data} = await api.get<Offer[]>(Endpoint.Offers);
-    dispatch(setLoadingStatus(false));
-    dispatch(fillOffers(data));
+    return data;
   },
 );
 
 export const checkAuthAction = createAsyncThunk<void, void, {dispatch: AppDispatch; state: State; extra: AxiosInstance}>(
-  'user/checkAuth',
-  async (_, {dispatch, extra: api}) => {
-    try {
-      await api.get(Endpoint.Login);
-      dispatch(setAuthorization(AuthorizationStatus.Auth));
-    } catch {
-      dispatch(setAuthorization(AuthorizationStatus.NoAuth));
-    }
+  'USER/checkAuth',
+  async (_, { extra: api }) => {
+    await api.get(Endpoint.Login);
   },
 );
 
-export const loginAction = createAsyncThunk<void, AuthData, {dispatch: AppDispatch; state: State; extra: AxiosInstance}>(
-  'user/login',
-  async (body, {dispatch, extra: api}) => {
-    const {data: {email, token}} = await api.post<UserData>(Endpoint.Login, body);
-    saveToken(token);
-    localStorage.setItem('email', email);
-    dispatch(setAuthorization(AuthorizationStatus.Auth));
+export const loginAction = createAsyncThunk<UserInfo, AuthData, {dispatch: AppDispatch; state: State; extra: AxiosInstance}>(
+  'USER/login',
+  async (body, { extra: api }) => {
+    const {data} = await api.post<UserData>(Endpoint.Login, body);
+    saveToken(data.token);
+    delete data.token;
+    return data as UserInfo;
   },
 );
 
 export const logoutAction = createAsyncThunk<void, void, {dispatch: AppDispatch; state: State; extra: AxiosInstance}>(
-  'user/logout',
-  async (_, {dispatch, extra: api}) => {
+  'USER/logout',
+  async (_, { extra: api }) => {
     await api.delete(Endpoint.Logout);
     dropToken();
-    localStorage.removeItem('email');
-    dispatch(setAuthorization(AuthorizationStatus.NoAuth));
   },
 );

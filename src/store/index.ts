@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { reducer } from './reducer';
+import { rootReducer } from './root-reducer';
 import { createAPI } from '../services/api';
 
 const store = configureStore({
-  reducer,
+  reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       thunk: {
@@ -12,6 +12,4 @@ const store = configureStore({
     }),
 });
 
-export type State = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
 export default store;

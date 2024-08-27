@@ -88,10 +88,25 @@ export enum AuthorizationStatus {
 export const BACKEND_ROOT = 'https://16.design.htmlacademy.pro/six-cities' as const;
 export const REQUEST_TIMEOUT = 5000 as const;
 export const AUTH_TOKEN_NAME = 'six-cities-token';
+
 export enum Endpoint {
   Offers = '/offers',
   Favorite = '/favorite',
   Comments = '/comments',
   Login = '/login',
   Logout = '/logout',
+}
+
+export enum NameSpace {
+  Data = 'DATA',
+  Offer = 'OFFER',
+  Favorites = 'FAVORITES',
+  User = 'USER',
+}
+
+export enum RequestStatus {
+  Idle = 'Idle',
+  Loading = 'Loading',
+  Success = 'Success',
+  Failed = 'Failed',
 }

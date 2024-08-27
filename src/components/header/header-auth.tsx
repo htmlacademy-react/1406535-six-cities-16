@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { logoutAction } from '../../store/api-action';
+import { getAuthStatus } from '../../store/user/selectors';
 import { AppRoute, AuthorizationStatus } from '../../const';
 
 export default function HeaderAuth() {
-  const authStatus = useAppSelector((state) => state.authStatus);
+  const authStatus = useAppSelector(getAuthStatus);
   const dispatch = useAppDispatch();
 
   const handleLogoutClick = () => {

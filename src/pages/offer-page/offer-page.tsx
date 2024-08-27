@@ -2,6 +2,7 @@ import { CompleteOffer } from '../../types';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppSelector } from '../../hooks';
+import { getAuthStatus } from '../../store/user/selectors';
 import { capitalizeFirstLetter, getPoint, sortReviewsByDate as sortReviewsByDate } from '../../utils';
 import { MapHeight, AuthorizationStatus } from '../../const';
 import Header from '../../components/header/header';
@@ -29,7 +30,7 @@ const sortedReviews = sortReviewsByDate(COMMENTS).slice(0, MaxItems.reviews);
 
 export default function OfferPage() {
   const params = useParams();
-  const authStatus = useAppSelector((state) => state.authStatus);
+  const authStatus = useAppSelector(getAuthStatus);
 
   if (params.id) {
     // eslint-disable-next-line no-console

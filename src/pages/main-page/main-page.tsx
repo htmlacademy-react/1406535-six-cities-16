@@ -1,8 +1,9 @@
 import { Offer, Point } from '../../types';
 import { useState, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { setCity } from '../../store/action';
 import { getPoint, getNumeralEnding, sort } from '../../utils';
+import { getCity, getOffers, getOffersStatus } from '../../store/data/selectors';
+import { setCity } from '../../store/data/data-slice';
 import { CITIES, DEFAULT_CITY, MapHeight, SortingOption } from '../../const';
 import Header from '../../components/header/header';
 import PlacesList from '../../components/places-list/places-list';
@@ -22,11 +23,11 @@ const initialSorting = {
   isOpen: false,
 };
 
-const getCity = (cityName: string) => CITIES.find((city) => city.name === cityName) || DEFAULT_CITY;
+const findCity = (cityName: string) => CITIES.find((city) => city.name === cityName) || DEFAULT_CITY;
 
 export default function MainPage() {
-  const offers = useAppSelector((state) => state.offers);
-  const activeCity = useAppSelector((state) => state.city);
+  const offers = useAppSelector(getOffers);
+  const activeCity = useAppSelector(getCity);
   const dispatch = useAppDispatch();
 
   const [activeOffer, setActiveOffer] = useState<Offer | null>(null);
@@ -52,7 +53,7 @@ export default function MainPage() {
   };
 
   const handleCityChange = (cityName: string) => {
-    dispatch(setCity(getCity(cityName)));
+    dispatch(setCity(findCity(cityName)));
     setSorting(initialSorting);
   };
 
