@@ -1,12 +1,11 @@
 import { Link } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { logoutAction } from '../../store/api-action';
-import { getAuthStatus, getUserInfo } from '../../store/user/selectors';
+import { getUserInfo } from '../../store/user/selectors';
 import { getFavorite } from '../../store/favorite/selectors';
-import { AppRoute, AuthorizationStatus } from '../../const';
+import { AppRoute } from '../../const';
 
 export default function HeaderAuth() {
-  const authStatus = useAppSelector(getAuthStatus);
   const userInfo = useAppSelector(getUserInfo);
   const favoriteCount = useAppSelector(getFavorite).length;
   const dispatch = useAppDispatch();
@@ -15,7 +14,7 @@ export default function HeaderAuth() {
     dispatch(logoutAction());
   };
 
-  if (authStatus !== AuthorizationStatus.Auth || userInfo === null) {
+  if (userInfo === null) {
     return (
       <nav className="header__nav">
         <ul className="header__nav-list">

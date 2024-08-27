@@ -24,7 +24,6 @@ export default function App() {
     <HistoryRouter history={browserHistory}>
       <Routes>
         <Route path={AppRoute.Root} element={<MainPage />} />
-        <Route path={AppRoute.Login} element={<LoginPage />} />
         <Route path={AppRoute.Login} element={<PrivateRoot noAuth><LoginPage /></PrivateRoot>} />
         <Route path={AppRoute.Favorites} element={<PrivateRoot><FavoritesPage /></PrivateRoot>} />
         <Route path={AppRoute.Offer} element={<OfferPage />} />

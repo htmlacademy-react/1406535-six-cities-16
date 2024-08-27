@@ -23,10 +23,11 @@ export const fetchFavoriteAction = createAsyncThunk<Offer[], void, {dispatch: Ap
   },
 );
 
-export const checkAuthAction = createAsyncThunk<void, void, {dispatch: AppDispatch; state: State; extra: AxiosInstance}>(
+export const checkAuthAction = createAsyncThunk<UserData, void, {dispatch: AppDispatch; state: State; extra: AxiosInstance}>(
   'USER/checkAuth',
   async (_, { extra: api }) => {
-    await api.get(Endpoint.Login);
+    const {data} = await api.get<UserData>(Endpoint.Login);
+    return {...data, token: 'dummy-token'};
   },
 );
 
@@ -35,7 +36,6 @@ export const loginAction = createAsyncThunk<UserData, AuthData, {dispatch: AppDi
   async (body, { dispatch, extra: api }) => {
     const {data} = await api.post<UserData>(Endpoint.Login, body);
     saveToken(data.token);
-    dispatch(redirectToRoute(AppRoute.Root));
     dispatch(fetchFavoriteAction());
     return {...data, token: 'dummy-token'};
   },
