@@ -84,9 +84,10 @@ export default function MainPage() {
                 <PlacesList offers={sortedOffers} onHover={handleOfferHover} />
               </section>}
             <div className="cities__right-section">
+              {!!localOffers.length &&
               <section className="cities__map map" style={{backgroundImage: 'none'}}>
-                {!!localOffers.length && <Map points={localPoints} activePoint={activeOffer && getPoint(activeOffer)} height={MapHeight.MainPage} />}
-              </section>
+                <Map points={localPoints} activePoint={activeOffer && getPoint(activeOffer)} height={MapHeight.MainPage} />
+              </section>}
             </div>
           </div>
         </div>

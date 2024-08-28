@@ -24,7 +24,7 @@ export default function ReviewForm({onSubmit}: ReviewFormProps) {
   const [formData, setFormData] = useState(initialValue);
 
   if (hasError) {
-    toast.warn('Проверьте данные формы и попробуйте отпрвить еще раз.');
+    toast.warn('Проверьте данные формы и попробуйте отпрaвить еще раз.');
   }
 
   const isDisabled = useMemo(() => !(formData.review.length >= MinValue.comment && formData.rating >= MinValue.rating), [formData]);
