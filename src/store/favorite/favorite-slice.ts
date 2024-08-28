@@ -1,4 +1,5 @@
 import { FavoriteSlice } from '../types';
+import { Offer } from '../../types';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { fetchFavoriteAction, changeFavoriteAction } from '../api-action';
 import { NameSpace, RequestStatus } from '../../const';
@@ -35,10 +36,8 @@ export const favoriteSlice = createSlice({
             state.items = state.items.filter(({id}) => id !== offer.id);
             break;
           case 1:
-            state.items.push(action.payload.offer);
+            state.items.push(offer as Offer);
         }
       });
   }
 });
-
-export const { deleteFavorite } = favoriteSlice.actions;

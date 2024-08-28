@@ -32,7 +32,7 @@ export type User = {
   isPro: boolean;
 }
 
-export type CompleteOffer = & {
+export type CompleteOffer = Offer & {
   description: string;
   bedrooms: number;
   goods: [string];
@@ -59,4 +59,4 @@ export type UserData = User & {
   token: string;
 };
 
-export type OffersByCity = Record<string, Array<Offer | CompleteOffer>>;
+export type OffersByCity = Record<string, Offer[]>;

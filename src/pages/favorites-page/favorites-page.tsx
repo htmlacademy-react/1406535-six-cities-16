@@ -1,4 +1,4 @@
-import { OffersByCity, Offer, CompleteOffer } from '../../types';
+import { Offer, OffersByCity } from '../../types';
 import { useMemo } from 'react';
 import { useAppSelector } from '../../hooks';
 import { getFavorite } from '../../store/favorite/selectors';
@@ -10,7 +10,7 @@ import FavoritesEmpty from '../../components/favorites-empty/favorites-empty';
 
 type FavoritesLocationProps = {
   city: string;
-  localOffers: Array<Offer | CompleteOffer>;
+  localOffers: Offer[];
 }
 
 function FavoritesLocation({city, localOffers}: FavoritesLocationProps) {
