@@ -29,8 +29,8 @@ export const getPoint = (offer: Offer | CompleteOffer) => {
 
 export const getNumeralEnding = (quantity: number, item: string) => `${quantity} ${item}${quantity > 1 ? 's' : ''}`;
 
-export const sortReviewsByDate = (reviews: Review[]) =>
-  reviews.sort((firstReview, secondReview) => dayjs(secondReview?.date).valueOf() - dayjs(firstReview?.date).valueOf());
+export const sortReviewsByDate = (reviews: Review[]) => [...reviews].sort((firstReview, secondReview) => dayjs(secondReview?.date).valueOf() - dayjs(firstReview?.date).valueOf());
+
 export const getDateYMD = (date: string) => dayjs(date).format('YYYY-MM-DD');
 export const getDateMY = (date: string) => dayjs(date).format('MMMM YYYY');
 

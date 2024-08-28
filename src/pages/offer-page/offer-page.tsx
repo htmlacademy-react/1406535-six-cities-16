@@ -1,10 +1,12 @@
-import { CompleteOffer } from '../../types';
-import { useState } from 'react';
+import { CompleteOffer, Review } from '../../types';
+import { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useAppSelector } from '../../hooks';
+import { useAppSelector, useAppDispatch } from '../../hooks';
 import { getAuthStatus } from '../../store/user/selectors';
-import { capitalizeFirstLetter, getPoint, sortReviewsByDate as sortReviewsByDate } from '../../utils';
-import { MapHeight, AuthorizationStatus } from '../../const';
+import { capitalizeFirstLetter, getPoint, sortReviewsByDate } from '../../utils';
+import { MapHeight, AuthorizationStatus, RequestStatus } from '../../const';
+import { fetchOfferAction, fetchOfferNearbyAction, fetchOfferCommentsAction } from '../../store/api-action';
+import { getOfferstatus, getFullOffer, getNearby, getOfferReviews } from '../../store/offer/selectors';
 import Header from '../../components/header/header';
 import PlaceCard from '../../components/place-card/place-card';
 import PremiumMark from '../../components/small-elements/premium-mark';
@@ -17,8 +19,7 @@ import Map from '../../components/map/map';
 import HeaderAuth from '../../components/header/header-auth';
 import OfferFeaturesList from '../../components/small-elements/offer-features-list';
 import OfferHostUserInfo from '../../components/small-elements/offer-host-user-info';
-import { OFFERS, singleOffer } from '../../mocks/offers';
-import { COMMENTS } from '../../mocks/comments';
+import NotFoundPage from '../not-found-page/not-found-page';
 
 const MaxItems = {
   nearOffers: 3,
@@ -26,22 +27,36 @@ const MaxItems = {
   reviews: 10
 };
 
-const sortedReviews = sortReviewsByDate(COMMENTS).slice(0, MaxItems.reviews);
-
 export default function OfferPage() {
-  const params = useParams();
+  const {id} = useParams();
   const authStatus = useAppSelector(getAuthStatus);
+  const isLoading = useAppSelector(getOfferstatus);
+  const singleOffer = useAppSelector(getFullOffer) as CompleteOffer;
+  const nearOffers = useAppSelector(getNearby).slice(0, MaxItems.nearOffers);
+  const reviews = useAppSelector(getOfferReviews);
+  const dispatch = useAppDispatch();
+  const [sortedReviews, setSortedReviews] = useState<Review[]>([]);
+  // const [favorite, setFavorite] = useState(false);
 
-  if (params.id) {
-    // eslint-disable-next-line no-console
-    console.log(`Айди ${params.id}`);
+  useEffect(() => {
+    Promise.all([dispatch(fetchOfferAction({id: id as string})), dispatch(fetchOfferNearbyAction({id: id as string})), dispatch(fetchOfferCommentsAction({id: id as string}))]);
+  }, [dispatch, id]);
+
+  useEffect(() => {
+    setSortedReviews(sortReviewsByDate(reviews));
+  }, [reviews]);
+
+  if (isLoading === RequestStatus.Loading) {
+    return (<p>Loading ...</p>);
+  }
+
+  if (isLoading === RequestStatus.Failed || !singleOffer) {
+    return (<NotFoundPage />);
   }
 
   const {title, isPremium, isFavorite, rating, type, goods, bedrooms, maxAdults, price, host, description, images} = singleOffer;
-  const [favorite, setFavorite] = useState(isFavorite);
-  const nearOffers = OFFERS.filter((offer) => offer.city.name === singleOffer.city.name).slice(0, MaxItems.nearOffers);
   const nearPoints = nearOffers.map(getPoint);
-  const activePoint = getPoint(singleOffer as CompleteOffer);
+  const activePoint = getPoint(singleOffer);
   nearPoints.push(activePoint);
 
   return (
@@ -64,7 +79,7 @@ export default function OfferPage() {
               {isPremium && <PremiumMark classPrefix="offer" />}
               <div className="offer__name-wrapper">
                 <h1 className="offer__name">{title}</h1>
-                <FavoriteMark classPrefix="offer" isFavorite={favorite} onClick={() => setFavorite(!favorite)}/>
+                <FavoriteMark classPrefix="offer" isFavorite={isFavorite} onClick={() => !isFavorite}/>
               </div>
               <Rating classPrefix="offer" rating={rating} />
               <OfferFeaturesList type={type} bedrooms={bedrooms} maxAdults={maxAdults} />
@@ -85,7 +100,7 @@ export default function OfferPage() {
                 </div>
               </div>
               <section className="offer__reviews reviews">
-                <ReviewsList reviews={sortedReviews} />
+                <ReviewsList reviews={sortedReviews} count={MaxItems.reviews}/>
                 {authStatus === AuthorizationStatus.Auth && <ReviewForm />}
               </section>
             </div>

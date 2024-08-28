@@ -1,8 +1,8 @@
 import { Offer, Point } from '../../types';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getPoint, getNumeralEnding, sort } from '../../utils';
-import { getCity, getOffers, getOffersStatus } from '../../store/data/selectors';
+import { getCity, getOffers } from '../../store/data/selectors';
 import { setCity } from '../../store/data/data-slice';
 import { CITIES, DEFAULT_CITY, MapHeight, SortingOption } from '../../const';
 import Header from '../../components/header/header';
@@ -34,7 +34,6 @@ export default function MainPage() {
   const [sorting, setSorting] = useState<Sorting>(initialSorting);
   const [localOffers, setLocalOffers] = useState<Offer[]>([]);
   const [localPoints, setLocalPoints] = useState<Point[]>([]);
-  const [sortedOffers, setSortedOffers] = useState<Offer[]>([]);
 
   useEffect(() => {
     setLocalOffers(offers.filter((offer) => offer.city.name === activeCity.name));
@@ -44,9 +43,7 @@ export default function MainPage() {
     setLocalPoints(localOffers.map(getPoint));
   }, [localOffers]);
 
-  useEffect(() => {
-    setSortedOffers(sort[sorting.activeSort](localOffers));
-  }, [localOffers, sorting.activeSort]);
+  const sortedOffers = useMemo(() => sort[sorting.activeSort](localOffers), [localOffers, sorting.activeSort]);
 
   const handleOfferHover = (offer?: Offer) => {
     setActiveOffer(offer || null);

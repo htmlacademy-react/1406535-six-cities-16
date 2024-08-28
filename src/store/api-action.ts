@@ -1,4 +1,4 @@
-import { Offer, AuthData, UserData } from '../types';
+import { Offer, AuthData, UserData, CompleteOffer, Review } from '../types';
 import { AppDispatch, State } from './types';
 import { createAsyncThunk, createAction } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
@@ -46,5 +46,29 @@ export const logoutAction = createAsyncThunk<void, void, {dispatch: AppDispatch;
   async (_, { extra: api }) => {
     await api.delete(Endpoint.Logout);
     dropToken();
+  },
+);
+
+export const fetchOfferAction = createAsyncThunk<CompleteOffer, {id: string}, {dispatch: AppDispatch; state: State; extra: AxiosInstance}>(
+  'DATA/fetchOneOffer',
+  async ({id}, { extra: api }) => {
+    const {data} = await api.get<CompleteOffer>(`${Endpoint.Offers}/${id}`);
+    return data;
+  },
+);
+
+export const fetchOfferNearbyAction = createAsyncThunk<Offer[], {id: string}, {dispatch: AppDispatch; state: State; extra: AxiosInstance}>(
+  'DATA/fetchOfferNearby',
+  async ({id}, { extra: api }) => {
+    const {data} = await api.get<Offer[]>(`${Endpoint.Offers}/${id}/nearby`);
+    return data;
+  },
+);
+
+export const fetchOfferCommentsAction = createAsyncThunk<Review[], {id: string}, {dispatch: AppDispatch; state: State; extra: AxiosInstance}>(
+  'DATA/fetchOfferComments',
+  async ({id}, { extra: api }) => {
+    const {data} = await api.get<Review[]>(`${Endpoint.Comments}/${id}`);
+    return data;
   },
 );

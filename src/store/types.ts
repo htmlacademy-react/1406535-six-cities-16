@@ -1,4 +1,4 @@
-import { City, Offer, CompleteOffer, UserData } from '../types';
+import { City, Offer, CompleteOffer, UserData, Review } from '../types';
 import { AuthorizationStatus, RequestStatus } from '../const';
 import { rootReducer } from './root-reducer';
 import store from './index';
@@ -17,6 +17,13 @@ export type DataSlice = {
 export type FavoriteSlice = {
   items: Offer[];
   status: RequestStatus;
+};
+
+export type OfferSlice = {
+  info: CompleteOffer | null;
+  nearby: Offer[];
+  status: RequestStatus;
+  reviews: Review[];
 };
 
 export type State = ReturnType<typeof store.getState>;
