@@ -1,4 +1,4 @@
-import { Offer, CompleteOffer } from '../../types';
+import { Offer } from '../../types';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
@@ -12,9 +12,9 @@ import Price from '../small-elements/price';
 import Rating from '../small-elements/rating';
 
 type PlaceCardProps = {
-  offer: Offer | CompleteOffer;
+  offer: Offer;
   classPrefix: 'favorites' | 'near-places' | 'cities';
-  onHover?: (offer?: Offer | CompleteOffer) => void;
+  onHover?: (offer?: Offer) => void;
 }
 
 export default function PlaceCard({offer, classPrefix, onHover}: PlaceCardProps) {
@@ -40,7 +40,7 @@ export default function PlaceCard({offer, classPrefix, onHover}: PlaceCardProps)
       {isPremium && <PremiumMark classPrefix="place-card" />}
       <div className={`${classPrefix}__image-wrapper place-card__image-wrapper`}>
         <a href="#">
-          <img className="place-card__image" src={offer?.previewImage} width={size[0]} height={size[1]} alt="Place image"/>
+          <img className="place-card__image" src={offer.previewImage} width={size[0]} height={size[1]} alt="Place image"/>
         </a>
       </div>
       <div className="place-card__info">
