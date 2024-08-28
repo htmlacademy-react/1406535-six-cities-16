@@ -1,8 +1,12 @@
-import { CompleteOffer } from '../../types';
-import { useState } from 'react';
+import { CompleteOffer, Review } from '../../types';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { capitalizeFirstLetter, getPoint, getNumeralEnding, sortReviewsByDate as sortReviewsByDate } from '../../utils';
-import { MapHeight } from '../../const';
+import { useAppSelector, useAppDispatch } from '../../hooks';
+import { getAuthStatus } from '../../store/user/selectors';
+import { capitalizeFirstLetter, getPoint, sortReviewsByDate } from '../../utils';
+import { MapHeight, AuthorizationStatus, RequestStatus, AppRoute } from '../../const';
+import { fetchOfferAction, fetchOfferNearbyAction, fetchOfferCommentsAction, changeFavoriteAction, redirectToRoute, postReviewAction } from '../../store/api-action';
+import { getOfferstatus, getFullOffer, getNearby, getOfferReviews } from '../../store/offer/selectors';
 import Header from '../../components/header/header';
 import PlaceCard from '../../components/place-card/place-card';
 import PremiumMark from '../../components/small-elements/premium-mark';
@@ -13,8 +17,9 @@ import ReviewForm from '../../components/review-form/review-form';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import Map from '../../components/map/map';
 import HeaderAuth from '../../components/header/header-auth';
-import { OFFERS, singleOffer } from '../../mocks/offers';
-import { COMMENTS } from '../../mocks/comments';
+import OfferFeaturesList from '../../components/small-elements/offer-features-list';
+import OfferHostUserInfo from '../../components/small-elements/offer-host-user-info';
+import NotFoundPage from '../not-found-page/not-found-page';
 
 const MaxItems = {
   nearOffers: 3,
@@ -22,23 +27,55 @@ const MaxItems = {
   reviews: 10
 };
 
-const sortedReviews = sortReviewsByDate(COMMENTS).slice(0, MaxItems.reviews);
-
 export default function OfferPage() {
-  const params = useParams();
+  const {id} = useParams();
+  const authStatus = useAppSelector(getAuthStatus);
+  const isLoading = useAppSelector(getOfferstatus);
+  const singleOffer = useAppSelector(getFullOffer) as CompleteOffer;
+  const nearOffers = useAppSelector(getNearby).slice(0, MaxItems.nearOffers);
+  const reviews = useAppSelector(getOfferReviews);
+  const dispatch = useAppDispatch();
+  const [sortedReviews, setSortedReviews] = useState<Review[]>([]);
+  const [favorite, setFavorite] = useState(false);
 
-  if (params.id) {
-    // eslint-disable-next-line no-console
-    console.log(`Айди ${params.id}`);
+  useEffect(() => {
+    Promise.all([dispatch(fetchOfferAction({id: id as string})), dispatch(fetchOfferNearbyAction({id: id as string})), dispatch(fetchOfferCommentsAction({id: id as string}))]);
+  }, [dispatch, id]);
+
+  useEffect(() => {
+    if (isLoading === RequestStatus.Success) {
+      setFavorite(singleOffer.isFavorite);
+    }
+  }, [isLoading, singleOffer]);
+
+  useEffect(() => {
+    setSortedReviews(sortReviewsByDate(reviews));
+  }, [reviews]);
+
+  if (isLoading === RequestStatus.Loading) {
+    return (<p>Loading ...</p>);
   }
 
-  const {title, isPremium, isFavorite, rating, type, goods, bedrooms, maxAdults, price, host, description, images} = singleOffer;
-  const [favorite, setFavorite] = useState(isFavorite);
-  const authorization = true;
-  const nearOffers = OFFERS.filter((offer) => offer.city.name === singleOffer.city.name).slice(0, MaxItems.nearOffers);
+  if (isLoading === RequestStatus.Failed || !singleOffer) {
+    return (<NotFoundPage />);
+  }
+
+  const {title, isPremium, rating, type, goods, bedrooms, maxAdults, price, host, description, images} = singleOffer;
   const nearPoints = nearOffers.map(getPoint);
-  const activePoint = getPoint(singleOffer as CompleteOffer);
+  const activePoint = getPoint(singleOffer);
   nearPoints.push(activePoint);
+
+  const handleFavoriteClick = () => {
+    if (authStatus !== AuthorizationStatus.Auth) {
+      dispatch(redirectToRoute(AppRoute.Login));
+    }
+    dispatch(changeFavoriteAction({id: singleOffer.id, status: favorite ? 0 : 1}));
+    setFavorite(!favorite);
+  };
+
+  const handleReviewSubmit = (text: string, sign: number) => {
+    dispatch(postReviewAction({id: singleOffer.id, comment: text, rating: sign}));
+  };
 
   return (
     <div className="page">
@@ -60,14 +97,10 @@ export default function OfferPage() {
               {isPremium && <PremiumMark classPrefix="offer" />}
               <div className="offer__name-wrapper">
                 <h1 className="offer__name">{title}</h1>
-                <FavoriteMark classPrefix="offer" isFavorite={favorite} onClick={() => setFavorite(!favorite)}/>
+                <FavoriteMark classPrefix="offer" isFavorite={favorite} onClick={handleFavoriteClick}/>
               </div>
               <Rating classPrefix="offer" rating={rating} />
-              <ul className="offer__features">
-                <li className="offer__feature offer__feature--entire">{capitalizeFirstLetter(type)}</li>
-                <li className="offer__feature offer__feature--bedrooms">{getNumeralEnding(bedrooms, 'bedroom')}</li>
-                <li className="offer__feature offer__feature--adults">Max {getNumeralEnding(maxAdults, 'adult')}</li>
-              </ul>
+              <OfferFeaturesList type={type} bedrooms={bedrooms} maxAdults={maxAdults} />
               <Price classPrefix="offer" price={price} />
               <div className="offer__inside">
                 <h2 className="offer__inside-title">What&apos;s inside</h2>
@@ -79,20 +112,14 @@ export default function OfferPage() {
               </div>
               <div className="offer__host">
                 <h2 className="offer__host-title">Meet the host</h2>
-                <div className="offer__host-user user">
-                  <div className={`${host.isPro && 'offer__avatar-wrapper--pro'} offer__avatar-wrapper user__avatar-wrapper`}>
-                    <img className="offer__avatar user__avatar" src={host.avatarUrl} width="74" height="74" alt={host.name}/>
-                  </div>
-                  <span className="offer__user-name">{host.name}</span>
-                  {host.isPro && <span className="offer__user-status">Pro</span>}
-                </div>
+                <OfferHostUserInfo {...host} />
                 <div className="offer__description">
                   <p className="offer__text">{description}</p>
                 </div>
               </div>
               <section className="offer__reviews reviews">
-                <ReviewsList reviews={sortedReviews} />
-                {authorization && <ReviewForm />}
+                <ReviewsList reviews={sortedReviews} count={MaxItems.reviews}/>
+                {authStatus === AuthorizationStatus.Auth && <ReviewForm onSubmit={handleReviewSubmit} />}
               </section>
             </div>
           </div>

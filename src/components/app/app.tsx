@@ -1,52 +1,41 @@
 import { useEffect } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { useAppSelector, useAppDispatch } from '../../hooks';
-import { fetchOffersAction } from '../../store/api-action';
-import { AppRoute, AuthorizationStatus } from '../../const';
+import { Routes, Route } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { getAuthStatus } from '../../store/user/selectors';
+import { getOffersStatus } from '../../store/data/selectors';
+import { fetchFavoriteAction } from '../../store/api-action';
+import { AppRoute, AuthorizationStatus, RequestStatus } from '../../const';
 import PrivateRoot from '../private-root/private-root';
 import MainPage from '../../pages/main-page/main-page';
 import FavoritesPage from '../../pages/favorites-page/favorites-page';
 import LoginPage from '../../pages/login-page/login-page';
 import OfferPage from '../../pages/offer-page/offer-page';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
-import { OFFERS } from '../../mocks/offers';
+import HistoryRouter from '../history-route/history-route';
+import browserHistory from '../../browser-history';
 
 export default function App() {
-  const authStatus = useAppSelector((state) => state.authStatus);
-  const isLoading = useAppSelector((state) => state.isLoading);
+  const authStatus = useAppSelector(getAuthStatus);
+  const isLoading = useAppSelector(getOffersStatus);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchOffersAction());
-  }, [authStatus, dispatch]);
+    dispatch(fetchFavoriteAction());
+  });
 
-  if (authStatus === AuthorizationStatus.Unknown || isLoading) {
-    return (
-      <p>Loading ...</p>
-    );
+  if (authStatus === AuthorizationStatus.Unknown || isLoading === RequestStatus.Loading) {
+    return (<p>Loading ...</p>);
   }
 
   return (
-    <BrowserRouter>
+    <HistoryRouter history={browserHistory}>
       <Routes>
         <Route path={AppRoute.Root} element={<MainPage />} />
-        <Route path={AppRoute.Login}
-          element={
-            <PrivateRoot sign="common">
-              <LoginPage />
-            </PrivateRoot>
-          }
-        />
-        <Route path={AppRoute.Favorites}
-          element={
-            <PrivateRoot sign="private">
-              <FavoritesPage offers={OFFERS} />
-            </PrivateRoot>
-          }
-        />
+        <Route path={AppRoute.Login} element={<PrivateRoot noAuth><LoginPage /></PrivateRoot>} />
+        <Route path={AppRoute.Favorites} element={<PrivateRoot><FavoritesPage /></PrivateRoot>} />
         <Route path={AppRoute.Offer} element={<OfferPage />} />
         <Route path='*' element={<NotFoundPage />} />
       </Routes>
-    </BrowserRouter>
+    </HistoryRouter>
   );
 }

@@ -13,7 +13,7 @@ export default function Rating({classPrefix, rating}: RatingProps) {
         <span style={{width: convertScoreToPercent(rating, MAX_RATING)}}></span>
         <span className="visually-hidden">Rating</span>
       </div>
-      {classPrefix === 'offer' ? <span className="offer__rating-value rating__value">{rating}</span> : null}
+      {classPrefix === 'offer' && <span className="offer__rating-value rating__value">{rating}</span>}
     </div>
   );
 }

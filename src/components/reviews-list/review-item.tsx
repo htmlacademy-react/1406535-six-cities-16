@@ -2,12 +2,8 @@ import { Review } from '../../types';
 import { getDateMY, getDateYMD } from '../../utils';
 import Rating from '../small-elements/rating';
 
-type ReviewItemProps = {
-  review: Review;
-}
-
-export default function ReviewItem({review}: ReviewItemProps) {
-  const {rating, comment, user, date} = review;
+export default function ReviewItem(props: Review) {
+  const {rating, comment, user, date} = props;
 
   return (
     <li className="reviews__item">

@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react';
 import leaflet, { LayerGroup } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useAppSelector } from '../../hooks';
+import { getCity } from '../../store/data/selectors';
 import { MarkerIcon } from '../../const';
 import useMap from '../../hooks/use-map';
 
@@ -19,7 +20,7 @@ const createMarker = (url: string) => leaflet.icon({
 });
 
 export default function Map({points, activePoint, height}: MapProps) {
-  const {location} = useAppSelector((state) => state.city);
+  const {location} = useAppSelector(getCity);
   const mapRef = useRef(null);
   const map = useMap(mapRef, location);
   const markerLayer = useRef<LayerGroup>(leaflet.layerGroup());

@@ -18,7 +18,7 @@ export type Offer = {
   title: string;
   type: string;
   price: number;
-  previewImage: string;
+  previewImage?: string;
   city: City;
   location: Location;
   isFavorite: boolean;
@@ -32,7 +32,7 @@ export type User = {
   isPro: boolean;
 }
 
-export type CompleteOffer = Omit<Offer, 'previewImage'> & {
+export type CompleteOffer = Offer & {
   description: string;
   bedrooms: number;
   goods: [string];
@@ -58,3 +58,5 @@ export type UserData = User & {
   email: string;
   token: string;
 };
+
+export type OffersByCity = Record<string, Offer[]>;

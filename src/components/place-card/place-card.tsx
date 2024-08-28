@@ -1,8 +1,11 @@
 import { Offer } from '../../types';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { changeFavoriteAction, redirectToRoute } from '../../store/api-action';
+import { getAuthStatus } from '../../store/user/selectors';
 import { capitalizeFirstLetter } from '../../utils';
-import { AppRoute } from '../../const';
+import { AppRoute, AuthorizationStatus } from '../../const';
 import PremiumMark from '../small-elements/premium-mark';
 import FavoriteMark from '../small-elements/favorite-mark';
 import Price from '../small-elements/price';
@@ -15,25 +18,35 @@ type PlaceCardProps = {
 }
 
 export default function PlaceCard({offer, classPrefix, onHover}: PlaceCardProps) {
-  const {title, type, price, previewImage, isFavorite, isPremium, rating} = offer;
+  const authStatus = useAppSelector(getAuthStatus);
+  const dispatch = useAppDispatch();
+  const {title, type, price, isFavorite, isPremium, rating} = offer;
   const size = classPrefix === 'favorites' ? [150, 110] : [260, 200];
   const [favorite, setFavorite] = useState(isFavorite);
 
   const handleMouseEnter = () => onHover ? onHover(offer) : null;
   const handleMouseLeave = () => onHover ? onHover() : null;
 
+  const handleFavoriteClick = () => {
+    if (authStatus !== AuthorizationStatus.Auth) {
+      dispatch(redirectToRoute(AppRoute.Login));
+    }
+    dispatch(changeFavoriteAction({id: offer.id, status: favorite ? 0 : 1}));
+    setFavorite(!favorite);
+  };
+
   return (
     <article className={`${classPrefix}__card place-card`} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       {isPremium && <PremiumMark classPrefix="place-card" />}
       <div className={`${classPrefix}__image-wrapper place-card__image-wrapper`}>
         <a href="#">
-          <img className="place-card__image" src={previewImage} width={size[0]} height={size[1]} alt="Place image"/>
+          <img className="place-card__image" src={offer.previewImage} width={size[0]} height={size[1]} alt="Place image"/>
         </a>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
           <Price classPrefix="place-card" price={price} />
-          <FavoriteMark classPrefix="place-card" isFavorite={favorite} onClick={() => setFavorite(!favorite)}/>
+          <FavoriteMark classPrefix="place-card" isFavorite={favorite} onClick={handleFavoriteClick}/>
         </div>
         <Rating classPrefix="place-card" rating={rating} />
         <h2 className="place-card__name">
