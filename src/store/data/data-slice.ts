@@ -17,6 +17,13 @@ export const dataSlice = createSlice({
     setCity: (state, action: PayloadAction<City>) => {
       state.city = action.payload;
     },
+    changeFavorite: (state, action: PayloadAction<string>) => {
+      state.offers.find((offer) => {
+        if (offer.id === action.payload) {
+          offer.isFavorite = !offer.isFavorite;
+        }
+      });
+    }
   },
   extraReducers(builder) {
     builder
@@ -33,4 +40,4 @@ export const dataSlice = createSlice({
   }
 });
 
-export const { setCity } = dataSlice.actions;
+export const { setCity, changeFavorite } = dataSlice.actions;

@@ -1,7 +1,9 @@
+import { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getAuthStatus } from '../../store/user/selectors';
 import { getOffersStatus } from '../../store/data/selectors';
+import { fetchFavoriteAction } from '../../store/api-action';
 import { AppRoute, AuthorizationStatus, RequestStatus } from '../../const';
 import PrivateRoot from '../private-root/private-root';
 import MainPage from '../../pages/main-page/main-page';
@@ -15,6 +17,11 @@ import browserHistory from '../../browser-history';
 export default function App() {
   const authStatus = useAppSelector(getAuthStatus);
   const isLoading = useAppSelector(getOffersStatus);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchFavoriteAction());
+  });
 
   if (authStatus === AuthorizationStatus.Unknown || isLoading === RequestStatus.Loading) {
     return (<p>Loading ...</p>);
@@ -25,7 +32,7 @@ export default function App() {
       <Routes>
         <Route path={AppRoute.Root} element={<MainPage />} />
         <Route path={AppRoute.Login} element={<PrivateRoot noAuth><LoginPage /></PrivateRoot>} />
-        {/* <Route path={AppRoute.Favorites} element={<PrivateRoot><FavoritesPage /></PrivateRoot>} /> */}
+        <Route path={AppRoute.Favorites} element={<PrivateRoot><FavoritesPage /></PrivateRoot>} />
         <Route path={AppRoute.Offer} element={<OfferPage />} />
         <Route path='*' element={<NotFoundPage />} />
       </Routes>

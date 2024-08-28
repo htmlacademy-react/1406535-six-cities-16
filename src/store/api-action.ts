@@ -3,6 +3,7 @@ import { AppDispatch, State } from './types';
 import { createAsyncThunk, createAction } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { saveToken, dropToken } from '../services/token';
+import { changeFavorite } from './data/data-slice';
 import { Endpoint, AppRoute } from '../const';
 
 export const redirectToRoute = createAction<AppRoute>('redirectToRoute');
@@ -16,7 +17,7 @@ export const fetchOffersAction = createAsyncThunk<Offer[], void, {dispatch: AppD
 );
 
 export const fetchFavoriteAction = createAsyncThunk<Offer[], void, {dispatch: AppDispatch; state: State; extra: AxiosInstance}>(
-  'DATA/fetchFavorite',
+  'FAVORITE/fetchAll',
   async (_, { extra: api }) => {
     const {data} = await api.get<Offer[]>(Endpoint.Favorite);
     return data;
@@ -70,5 +71,14 @@ export const fetchOfferCommentsAction = createAsyncThunk<Review[], {id: string},
   async ({id}, { extra: api }) => {
     const {data} = await api.get<Review[]>(`${Endpoint.Comments}/${id}`);
     return data;
+  },
+);
+
+export const changeFavoriteAction = createAsyncThunk<{offer: CompleteOffer; status: 1 | 0}, {id: string; status: 1 | 0}, {dispatch: AppDispatch; state: State; extra: AxiosInstance}>(
+  'FAVORITE/changeStatus',
+  async ({id, status}, { dispatch, extra: api }) => {
+    const {data} = await api.post<CompleteOffer>(`${Endpoint.Favorite}/${id}/${status}`);
+    dispatch(changeFavorite(data.id));
+    return { offer: data, status: status };
   },
 );

@@ -15,7 +15,7 @@ export type DataSlice = {
 };
 
 export type FavoriteSlice = {
-  items: Offer[];
+  items: Array<Offer | CompleteOffer>;
   status: RequestStatus;
 };
 
