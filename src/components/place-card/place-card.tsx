@@ -18,11 +18,11 @@ type PlaceCardProps = {
 }
 
 export default function PlaceCard({offer, classPrefix, onHover}: PlaceCardProps) {
+  const authStatus = useAppSelector(getAuthStatus);
+  const dispatch = useAppDispatch();
   const {title, type, price, isFavorite, isPremium, rating} = offer;
   const size = classPrefix === 'favorites' ? [150, 110] : [260, 200];
   const [favorite, setFavorite] = useState(isFavorite);
-  const dispatch = useAppDispatch();
-  const authStatus = useAppSelector(getAuthStatus);
 
   const handleMouseEnter = () => onHover ? onHover(offer) : null;
   const handleMouseLeave = () => onHover ? onHover() : null;

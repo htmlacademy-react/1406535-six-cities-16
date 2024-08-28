@@ -1,11 +1,11 @@
 import { CompleteOffer, Review } from '../../types';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { getAuthStatus } from '../../store/user/selectors';
 import { capitalizeFirstLetter, getPoint, sortReviewsByDate } from '../../utils';
-import { MapHeight, AuthorizationStatus, RequestStatus } from '../../const';
-import { fetchOfferAction, fetchOfferNearbyAction, fetchOfferCommentsAction } from '../../store/api-action';
+import { MapHeight, AuthorizationStatus, RequestStatus, AppRoute } from '../../const';
+import { fetchOfferAction, fetchOfferNearbyAction, fetchOfferCommentsAction, changeFavoriteAction, redirectToRoute } from '../../store/api-action';
 import { getOfferstatus, getFullOffer, getNearby, getOfferReviews } from '../../store/offer/selectors';
 import Header from '../../components/header/header';
 import PlaceCard from '../../components/place-card/place-card';
@@ -36,11 +36,17 @@ export default function OfferPage() {
   const reviews = useAppSelector(getOfferReviews);
   const dispatch = useAppDispatch();
   const [sortedReviews, setSortedReviews] = useState<Review[]>([]);
-  // const [favorite, setFavorite] = useState(false);
+  const [favorite, setFavorite] = useState(false);
 
   useEffect(() => {
     Promise.all([dispatch(fetchOfferAction({id: id as string})), dispatch(fetchOfferNearbyAction({id: id as string})), dispatch(fetchOfferCommentsAction({id: id as string}))]);
   }, [dispatch, id]);
+
+  useEffect(() => {
+    if (isLoading === RequestStatus.Success) {
+      setFavorite(singleOffer.isFavorite);
+    }
+  }, [isLoading, singleOffer]);
 
   useEffect(() => {
     setSortedReviews(sortReviewsByDate(reviews));
@@ -54,10 +60,18 @@ export default function OfferPage() {
     return (<NotFoundPage />);
   }
 
-  const {title, isPremium, isFavorite, rating, type, goods, bedrooms, maxAdults, price, host, description, images} = singleOffer;
+  const {title, isPremium, rating, type, goods, bedrooms, maxAdults, price, host, description, images} = singleOffer;
   const nearPoints = nearOffers.map(getPoint);
   const activePoint = getPoint(singleOffer);
   nearPoints.push(activePoint);
+
+  const handleFavoriteClick = () => {
+    if (authStatus !== AuthorizationStatus.Auth) {
+      dispatch(redirectToRoute(AppRoute.Login));
+    }
+    dispatch(changeFavoriteAction({id: singleOffer.id, status: favorite ? 0 : 1}));
+    setFavorite(!favorite);
+  };
 
   return (
     <div className="page">
@@ -79,7 +93,7 @@ export default function OfferPage() {
               {isPremium && <PremiumMark classPrefix="offer" />}
               <div className="offer__name-wrapper">
                 <h1 className="offer__name">{title}</h1>
-                <FavoriteMark classPrefix="offer" isFavorite={isFavorite} onClick={() => !isFavorite}/>
+                <FavoriteMark classPrefix="offer" isFavorite={favorite} onClick={handleFavoriteClick}/>
               </div>
               <Rating classPrefix="offer" rating={rating} />
               <OfferFeaturesList type={type} bedrooms={bedrooms} maxAdults={maxAdults} />
