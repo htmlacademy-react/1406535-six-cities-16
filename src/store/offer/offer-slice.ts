@@ -1,6 +1,6 @@
 import { OfferSlice } from '../types';
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchOfferAction, fetchOfferNearbyAction, fetchOfferCommentsAction } from '../api-action';
+import { fetchOfferAction, fetchOfferNearbyAction, fetchOfferCommentsAction, postReviewAction } from '../api-action';
 import { NameSpace, RequestStatus } from '../../const';
 
 const initialState: OfferSlice = {
@@ -8,6 +8,7 @@ const initialState: OfferSlice = {
   nearby: [],
   status: RequestStatus.Idle,
   reviews: [],
+  hasError: false,
 };
 
 export const offerSlice = createSlice({
@@ -28,6 +29,13 @@ export const offerSlice = createSlice({
       })
       .addCase(fetchOfferCommentsAction.fulfilled, (state, action) => {
         state.reviews = action.payload;
+      })
+      .addCase(postReviewAction.rejected, (state) => {
+        state.hasError = true;
+      })
+      .addCase(postReviewAction.fulfilled, (state, action) => {
+        state.reviews.push(action.payload);
+        state.hasError = false;
       })
       .addCase(fetchOfferNearbyAction.fulfilled, (state, action) => {
         state.nearby = action.payload;

@@ -5,7 +5,7 @@ import { useAppSelector, useAppDispatch } from '../../hooks';
 import { getAuthStatus } from '../../store/user/selectors';
 import { capitalizeFirstLetter, getPoint, sortReviewsByDate } from '../../utils';
 import { MapHeight, AuthorizationStatus, RequestStatus, AppRoute } from '../../const';
-import { fetchOfferAction, fetchOfferNearbyAction, fetchOfferCommentsAction, changeFavoriteAction, redirectToRoute } from '../../store/api-action';
+import { fetchOfferAction, fetchOfferNearbyAction, fetchOfferCommentsAction, changeFavoriteAction, redirectToRoute, postReviewAction } from '../../store/api-action';
 import { getOfferstatus, getFullOffer, getNearby, getOfferReviews } from '../../store/offer/selectors';
 import Header from '../../components/header/header';
 import PlaceCard from '../../components/place-card/place-card';
@@ -73,6 +73,10 @@ export default function OfferPage() {
     setFavorite(!favorite);
   };
 
+  const handleReviewSubmit = (text: string, sign: number) => {
+    dispatch(postReviewAction({id: singleOffer.id, comment: text, rating: sign}));
+  };
+
   return (
     <div className="page">
       <Header>
@@ -115,7 +119,7 @@ export default function OfferPage() {
               </div>
               <section className="offer__reviews reviews">
                 <ReviewsList reviews={sortedReviews} count={MaxItems.reviews}/>
-                {authStatus === AuthorizationStatus.Auth && <ReviewForm />}
+                {authStatus === AuthorizationStatus.Auth && <ReviewForm onSubmit={handleReviewSubmit} />}
               </section>
             </div>
           </div>

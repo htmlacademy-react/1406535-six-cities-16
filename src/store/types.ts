@@ -24,6 +24,7 @@ export type OfferSlice = {
   nearby: Offer[];
   status: RequestStatus;
   reviews: Review[];
+  hasError: boolean;
 };
 
 export type State = ReturnType<typeof store.getState>;

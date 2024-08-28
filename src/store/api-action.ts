@@ -82,3 +82,11 @@ export const changeFavoriteAction = createAsyncThunk<{offer: CompleteOffer; stat
     return { offer: data, status: status };
   },
 );
+
+export const postReviewAction = createAsyncThunk<Review, {id: string; comment: string; rating: number}, {dispatch: AppDispatch; state: State; extra: AxiosInstance}>(
+  'REVIEW/postReview',
+  async ({id, comment, rating}, { extra: api}) => {
+    const {data} = await api.post<Review>(`${Endpoint.Comments}/${id}`, {comment, rating});
+    return data;
+  },
+);
