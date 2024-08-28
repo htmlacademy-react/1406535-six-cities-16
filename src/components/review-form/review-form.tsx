@@ -43,7 +43,7 @@ export default function ReviewForm({onSubmit}: ReviewFormProps) {
   const handleFormSubmit = (evt: FormEvent) => {
     evt.preventDefault();
     onSubmit(formData.review, formData.rating);
-    evt.target.reset();
+    // evt.target.reset();
     setFormData(initialValue);
   };
 

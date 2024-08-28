@@ -1,5 +1,4 @@
 import { Offer, OffersByCity } from '../../types';
-import { useMemo } from 'react';
 import { useAppSelector } from '../../hooks';
 import { getFavorite } from '../../store/favorite/selectors';
 import Header from '../../components/header/header';
@@ -32,12 +31,8 @@ function FavoritesLocation({city, localOffers}: FavoritesLocationProps) {
 
 export default function FavoritesPage() {
   const offers = useAppSelector(getFavorite);
-  const sortedOffers: OffersByCity = useMemo(() => {
-    if (offers.length === 0) {
-      return {};
-    }
-    return Object.groupBy(offers, (offer) => offer.city.name);
-  }, [offers]);
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return
+  const sortedOffers = Object.groupBy(offers, (item) => item.city.name);
 
   return (
     <div className={`page ${offers.length === 0 ? 'page--favorites-empty' : ''}`}>
@@ -52,7 +47,7 @@ export default function FavoritesPage() {
             <section className="favorites">
               <h1 className="favorites__title">Saved listing</h1>
               <ul className="favorites__list">
-                {Object.entries(sortedOffers).map((item) => <FavoritesLocation key={item[0]} city={item[0]} localOffers={item[1]} />)}
+                {Object.entries(sortedOffers as OffersByCity).map((item) => <FavoritesLocation key={item[0]} city={item[0]} localOffers={item[1]} />)}
               </ul>
             </section>}
         </div>
