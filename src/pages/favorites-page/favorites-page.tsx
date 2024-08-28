@@ -40,7 +40,7 @@ export default function FavoritesPage() {
   }, [offers]);
 
   return (
-    <div className="page">
+    <div className={`page ${offers.length === 0 ? 'page--favorites-empty' : ''}`}>
       <Header>
         <HeaderAuth />
       </Header>
