@@ -1,10 +1,9 @@
 import { useRef, FormEvent } from 'react';
-import { Link } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks';
-import { setCity } from '../../store/data/data-slice';
 import { loginAction } from '../../store/api-action';
 import Header from '../../components/header/header';
-import { CITIES, AppRoute } from '../../const';
+import { getRandomCity } from '../../utils';
+import ChangeCityLink from '../../components/small-elements/change-city-link';
 
 export default function LoginPage() {
   const loginRef = useRef<HTMLInputElement | null>(null);
@@ -21,8 +20,6 @@ export default function LoginPage() {
       }));
     }
   };
-
-  const randomCity = CITIES[Math.round(Math.random() * CITIES.length)];
 
   return (
     <div className="page page--gray page--login">
@@ -45,11 +42,7 @@ export default function LoginPage() {
             </form>
           </section>
           <section className="locations locations--login locations--current">
-            <div className="locations__item">
-              <Link to={AppRoute.Root} className="locations__item-link" onClick={() => setCity(randomCity)}>
-                <span>{randomCity.name}</span>
-              </Link>
-            </div>
+            <ChangeCityLink city={getRandomCity().name} />
           </section>
         </div>
       </main>

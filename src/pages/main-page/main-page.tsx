@@ -3,8 +3,8 @@ import { useState, useEffect, useMemo } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getCity, getOffers } from '../../store/data/selectors';
 import { setCity } from '../../store/data/data-slice';
-import { getPoint, getNumeralEnding, sort, isEmptyArray } from '../../utils';
-import { CITIES, DEFAULT_CITY, MapHeight, SortingOption } from '../../const';
+import { getPoint, getNumeralEnding, sort, isEmptyArray, findCity } from '../../utils';
+import { MapHeight, SortingOption } from '../../const';
 import Header from '../../components/header/header';
 import PlacesList from '../../components/places-list/places-list';
 import Map from '../../components/map/map';
@@ -23,8 +23,6 @@ const initialSorting = {
   activeSort: SortingOption.Default,
   isOpen: false,
 };
-
-const findCity = (cityName: string) => CITIES.find((city) => city.name === cityName) || DEFAULT_CITY;
 
 export default function MainPage() {
   const offers = useAppSelector(getOffers);
@@ -71,9 +69,7 @@ export default function MainPage() {
 
       <main className={clsx('page__main', 'page__main--index', isEmptyArray(offers) && 'page__main--index-empty')}>
         <h1 className="visually-hidden">Cities</h1>
-        <div className="tabs">
-          <LocationList cities={CITIES} activeCity={activeCity.name} onChange={handleCityChange} />
-        </div>
+        <LocationList activeCity={activeCity.name} onChange={handleCityChange} />
         <div className="cities">
           <div className={clsx('cities__places-container', isEmptyArray(localOffers) && 'cities__places-container--empty', 'container')}>
             {!localOffers.length ?

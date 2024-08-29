@@ -7,6 +7,7 @@ import Footer from '../../components/footer/footer';
 import PlaceCard from '../../components/place-card/place-card';
 import HeaderAuth from '../../components/header/header-auth';
 import FavoritesEmpty from '../../components/favorites-empty/favorites-empty';
+import ChangeCityLink from '../../components/small-elements/change-city-link';
 import clsx from 'clsx';
 
 type FavoritesLocationProps = {
@@ -18,11 +19,7 @@ function FavoritesLocation({city, localOffers}: FavoritesLocationProps) {
   return (
     <li className="favorites__locations-items">
       <div className="favorites__locations locations locations--current">
-        <div className="locations__item">
-          <a className="locations__item-link" href="#">
-            <span>{city}</span>
-          </a>
-        </div>
+        <ChangeCityLink city={city} />
       </div>
       <div className="favorites__places">
         {localOffers.map((offer) => <PlaceCard key={offer.id} classPrefix="favorites" offer={offer} />)}

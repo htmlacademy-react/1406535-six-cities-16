@@ -1,6 +1,6 @@
 import { Offer, CompleteOffer, Review, Point } from './types';
 import dayjs from 'dayjs';
-import { SortingOption } from './const';
+import { SortingOption, CITIES, DEFAULT_CITY } from './const';
 
 export const capitalizeFirstLetter = (word: string) => `${word[0].toUpperCase()}${word.slice(1)}`;
 
@@ -37,3 +37,6 @@ export const sortOffersByCities = (offers: Offer[]) => {
 };
 
 export const isEmptyArray = (arr?: Array<unknown>): boolean => Array.isArray(arr) && arr.length === 0;
+
+export const findCity = (cityName: string) => CITIES.find((city) => city.name === cityName) || DEFAULT_CITY;
+export const getRandomCity = () => CITIES[Math.round(Math.random() * CITIES.length)];
