@@ -1,10 +1,10 @@
 import { useRef, FormEvent } from 'react';
-import { redirectToRoute } from '../../store/api-action';
+import { Link } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks';
+import { setCity } from '../../store/data/data-slice';
 import { loginAction } from '../../store/api-action';
 import Header from '../../components/header/header';
 import { CITIES, AppRoute } from '../../const';
-import { setCity } from '../../store/data/data-slice';
 
 export default function LoginPage() {
   const loginRef = useRef<HTMLInputElement | null>(null);
@@ -23,10 +23,6 @@ export default function LoginPage() {
   };
 
   const randomCity = CITIES[Math.round(Math.random() * CITIES.length)];
-  const handleCityClick = () => {
-    setCity(randomCity);
-    redirectToRoute(AppRoute.Root);
-  };
 
   return (
     <div className="page page--gray page--login">
@@ -48,11 +44,11 @@ export default function LoginPage() {
               <button className="login__submit form__submit button" type="submit">Sign in</button>
             </form>
           </section>
-          <section className="locations locations--login locations--current" onClick={handleCityClick}>
+          <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <a className="locations__item-link">
+              <Link to={AppRoute.Root} className="locations__item-link" onClick={() => setCity(randomCity)}>
                 <span>{randomCity.name}</span>
-              </a>
+              </Link>
             </div>
           </section>
         </div>
