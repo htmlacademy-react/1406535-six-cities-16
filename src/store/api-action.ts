@@ -26,8 +26,9 @@ export const fetchFavoriteAction = createAsyncThunk<Offer[], void, {dispatch: Ap
 
 export const checkAuthAction = createAsyncThunk<UserData, void, {dispatch: AppDispatch; state: State; extra: AxiosInstance}>(
   'user/checkAuth',
-  async (_, { extra: api }) => {
+  async (_, { dispatch, extra: api }) => {
     const {data} = await api.get<UserData>(ApiRoute.Login);
+    dispatch(fetchFavoriteAction());
     return {...data, token: 'dummy-token'};
   },
 );

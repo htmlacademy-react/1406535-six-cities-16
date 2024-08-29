@@ -69,7 +69,7 @@ export default function MainPage() {
         <HeaderAuth />
       </Header>
 
-      <main className={clsx('page__main', 'page__main--index', isEmptyArray(localOffers) && 'page__main--index-empty')}>
+      <main className={clsx('page__main', 'page__main--index', isEmptyArray(offers) && 'page__main--index-empty')}>
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <LocationList cities={CITIES} activeCity={activeCity.name} onChange={handleCityChange} />

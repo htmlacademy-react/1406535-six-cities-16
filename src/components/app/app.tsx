@@ -21,8 +21,14 @@ export default function App() {
 
   useEffect(() => {
     dispatch(checkAuthAction());
-    dispatch(fetchOffersAction());
   }, []);
+
+  useEffect(() => {
+    if (authStatus !== AuthorizationStatus.Unknown) {
+      dispatch(fetchOffersAction());
+    }
+  }, [authStatus, dispatch]);
+
 
   if (authStatus === AuthorizationStatus.Unknown || isLoading === RequestStatus.Loading) {
     return (<p>Loading ...</p>);

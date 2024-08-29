@@ -36,4 +36,4 @@ export const sortOffersByCities = (offers: Offer[]) => {
   return sortedOffers;
 };
 
-export const isEmptyArray = (arr?: Array<unknown>): boolean => Array.isArray(arr) && arr.length > 0;
+export const isEmptyArray = (arr?: Array<unknown>): boolean => Array.isArray(arr) && arr.length === 0;
