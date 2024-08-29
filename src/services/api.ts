@@ -1,7 +1,7 @@
 import axios, { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
 import { StatusCodes } from 'http-status-codes';
-import { getToken } from './token';
 import { toast } from 'react-toastify';
+import { getToken } from './token';
 import { BACKEND_ROOT, REQUEST_TIMEOUT } from '../const';
 
 type DetailMessageType = {

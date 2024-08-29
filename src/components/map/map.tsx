@@ -1,9 +1,9 @@
 import { Point } from '../../types';
 import { useEffect, useRef } from 'react';
-import leaflet, { LayerGroup } from 'leaflet';
-import 'leaflet/dist/leaflet.css';
 import { useAppSelector } from '../../hooks';
 import { getCity } from '../../store/data/selectors';
+import leaflet, { LayerGroup } from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 import { MarkerIcon } from '../../const';
 import useMap from '../../hooks/use-map';
 

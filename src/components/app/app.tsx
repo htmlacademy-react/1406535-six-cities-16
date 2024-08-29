@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getAuthStatus } from '../../store/user/selectors';
 import { getOffersStatus } from '../../store/data/selectors';
-import { fetchFavoriteAction } from '../../store/api-action';
+import { checkAuthAction, fetchOffersAction } from '../../store/api-action';
 import { AppRoute, AuthorizationStatus, RequestStatus } from '../../const';
 import PrivateRoot from '../private-root/private-root';
 import MainPage from '../../pages/main-page/main-page';
@@ -20,8 +20,9 @@ export default function App() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchFavoriteAction());
-  });
+    dispatch(checkAuthAction());
+    dispatch(fetchOffersAction());
+  }, []);
 
   if (authStatus === AuthorizationStatus.Unknown || isLoading === RequestStatus.Loading) {
     return (<p>Loading ...</p>);
