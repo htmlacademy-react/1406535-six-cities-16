@@ -5,8 +5,11 @@
 /.pnp
 .pnp.js
 
+/markup
+
 # testing
 /coverage
+/js3-six-cities-e2e
 
 # production
 /dist
