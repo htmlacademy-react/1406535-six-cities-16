@@ -1,8 +1,8 @@
 import { combineReducers } from '@reduxjs/toolkit';
-import { dataSlice } from './data/data-slice';
-import { userSlice } from './user/user-slice';
-import { favoriteSlice } from './favorite/favorite-slice';
-import { offerSlice } from './offer/offer-slice';
+import { dataSlice } from './data-slice/data-slice';
+import { userSlice } from './user-slice/user-slice';
+import { favoriteSlice } from './favorite-slice/favorite-slice';
+import { offerSlice } from './offer-slice/offer-slice';
 import { NameSpace } from '../const';
 
 export const rootReducer = combineReducers({

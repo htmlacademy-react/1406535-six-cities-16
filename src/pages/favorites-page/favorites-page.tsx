@@ -1,6 +1,6 @@
 import { Offer, OffersByCity } from '../../types';
 import { useAppSelector } from '../../hooks';
-import { getFavorite } from '../../store/favorite/selectors';
+import { getFavorite } from '../../store/favorite-slice/selectors';
 import { sortOffersByCities, isEmptyArray } from '../../utils';
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';

@@ -1,7 +1,7 @@
 import { Point } from '../../types';
 import { useEffect, useRef } from 'react';
 import { useAppSelector } from '../../hooks';
-import { getCity } from '../../store/data/selectors';
+import { getCity } from '../../store/data-slice/selectors';
 import leaflet, { LayerGroup } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { MarkerIcon } from '../../const';
@@ -15,8 +15,8 @@ type MapProps = {
 
 const createMarker = (url: string) => leaflet.icon({
   iconUrl: url,
-  iconSize: [28, 40],
-  iconAnchor: [14, 40],
+  iconSize: [30, 40],
+  iconAnchor: [15, 40],
 });
 
 export default function Map({points, activePoint, height}: MapProps) {

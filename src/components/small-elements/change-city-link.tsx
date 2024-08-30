@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { setCity } from '../../store/data/data-slice';
+import { setCity } from '../../store/data-slice/data-slice';
 import { findCity } from '../../utils';
 import { AppRoute } from '../../const';
 

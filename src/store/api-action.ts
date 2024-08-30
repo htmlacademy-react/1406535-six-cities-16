@@ -2,7 +2,7 @@ import { Offer, AuthData, UserData, CompleteOffer, Review } from '../types';
 import { AppDispatch, State } from './types';
 import { createAsyncThunk, createAction } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
-import { changeFavorite } from './data/data-slice';
+import { changeFavorite } from './data-slice/data-slice';
 import { saveToken, dropToken } from '../services/token';
 import { ApiRoute, AppRoute } from '../const';
 

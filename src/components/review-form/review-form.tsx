@@ -1,8 +1,8 @@
 import { FormEvent, useEffect, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { postReviewAction } from '../../store/api-action';
-import { clearStatus } from '../../store/offer/offer-slice';
-import { getCommentSendingStatus, getSuccessStatus } from '../../store/offer/selectors';
+import { clearStatus } from '../../store/offer-slice/offer-slice';
+import { getCommentSendingStatus, getSuccessStatus } from '../../store/offer-slice/selectors';
 import ReviewRating from '../review-rating/review-rating';
 
 type ReviewFormProps = {

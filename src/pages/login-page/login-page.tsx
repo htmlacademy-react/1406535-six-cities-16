@@ -21,6 +21,8 @@ export default function LoginPage() {
     }
   };
 
+  const randomCity = getRandomCity();
+
   return (
     <div className="page page--gray page--login">
       <Header />
@@ -42,7 +44,7 @@ export default function LoginPage() {
             </form>
           </section>
           <section className="locations locations--login locations--current">
-            <ChangeCityLink city={getRandomCity().name} />
+            <ChangeCityLink city={randomCity.name} />
           </section>
         </div>
       </main>

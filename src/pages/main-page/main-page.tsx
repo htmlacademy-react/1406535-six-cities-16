@@ -1,8 +1,8 @@
 import { Offer, Point } from '../../types';
 import { useState, useEffect, useMemo } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { getCity, getOffers } from '../../store/data/selectors';
-import { setCity } from '../../store/data/data-slice';
+import { getCity, getOffers } from '../../store/data-slice/selectors';
+import { setCity } from '../../store/data-slice/data-slice';
 import { getPoint, getNumeralEnding, sort, isEmptyArray, findCity } from '../../utils';
 import { MapHeight, SortingOption } from '../../const';
 import Header from '../../components/header/header';
@@ -42,7 +42,12 @@ export default function MainPage() {
     setLocalPoints(localOffers.map(getPoint));
   }, [localOffers]);
 
-  const sortedOffers = useMemo(() => sort[sorting.activeSort](localOffers), [localOffers, sorting.activeSort]);
+  const sortedOffers = useMemo(() => {
+    if (isEmptyArray(localOffers)) {
+      return [];
+    }
+    return sort(localOffers, sorting.activeSort);
+  }, [localOffers, sorting.activeSort]);
 
   const handleOfferHover = (offer?: Offer) => {
     setActiveOffer(offer || null);
@@ -67,7 +72,7 @@ export default function MainPage() {
         <HeaderAuth />
       </Header>
 
-      <main className={clsx('page__main', 'page__main--index', isEmptyArray(offers) && 'page__main--index-empty')}>
+      <main className={clsx('page__main', 'page__main--index', isEmptyArray(localOffers) && 'page__main--index-empty')}>
         <h1 className="visually-hidden">Cities</h1>
         <LocationList activeCity={activeCity.name} onChange={handleCityChange} />
         <div className="cities">

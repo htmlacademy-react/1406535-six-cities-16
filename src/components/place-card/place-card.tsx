@@ -2,7 +2,7 @@ import { Offer } from '../../types';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { getAuthStatus } from '../../store/user/selectors';
+import { getAuthStatus } from '../../store/user-slice/selectors';
 import { changeFavoriteAction, redirectToRoute } from '../../store/api-action';
 import { capitalizeFirstLetter } from '../../utils';
 import { AppRoute, AuthorizationStatus } from '../../const';

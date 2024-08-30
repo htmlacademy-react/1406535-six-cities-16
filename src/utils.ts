@@ -17,11 +17,18 @@ export const sortReviewsByDate = (reviews: Review[]) => [...reviews].sort((first
 export const getDateYMD = (date: string) => dayjs(date).format('YYYY-MM-DD');
 export const getDateMY = (date: string) => dayjs(date).format('MMMM YYYY');
 
-export const sort = {
-  [SortingOption.Default]: (offers: Offer[]) => [...offers],
-  [SortingOption.PriceDown]: (offers: Offer[]) => [...offers].sort((firstOffer, secondOffer) => secondOffer.price - firstOffer.price),
-  [SortingOption.PriceUp]: (offers: Offer[]) => [...offers].sort((firstOffer, secondOffer) => firstOffer.price - secondOffer.price),
-  [SortingOption.TopRated]: (offers: Offer[]) => [...offers].sort((firstOffer, secondOffer) => secondOffer.rating - firstOffer.rating),
+export const sort = (offers: Offer[], sortType: string) => {
+  const sorted = [...offers];
+  switch (sortType) {
+    case SortingOption.PriceDown:
+      return sorted.sort((firstOffer, secondOffer) => secondOffer.price - firstOffer.price);
+    case SortingOption.PriceUp:
+      return sorted.sort((firstOffer, secondOffer) => firstOffer.price - secondOffer.price);
+    case SortingOption.TopRated:
+      return sorted.sort((firstOffer, secondOffer) => secondOffer.rating - firstOffer.rating);
+    default:
+      return sorted;
+  }
 };
 
 export const sortOffersByCities = (offers: Offer[]) => {
@@ -39,4 +46,4 @@ export const sortOffersByCities = (offers: Offer[]) => {
 export const isEmptyArray = (arr?: Array<unknown>): boolean => Array.isArray(arr) && arr.length === 0;
 
 export const findCity = (cityName: string) => CITIES.find((city) => city.name === cityName) || DEFAULT_CITY;
-export const getRandomCity = () => CITIES[Math.round(Math.random() * CITIES.length)];
+export const getRandomCity = () => [...CITIES][Math.round(Math.random() * CITIES.length)];
