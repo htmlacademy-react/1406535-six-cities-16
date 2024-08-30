@@ -1,8 +1,8 @@
+import { City } from '../../types';
 import { DataSlice } from '../types';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { fetchOffersAction } from '../api-action';
 import { NameSpace, RequestStatus, DEFAULT_CITY } from '../../const';
-import { City } from '../../types';
 
 const initialState: DataSlice = {
   city: DEFAULT_CITY,

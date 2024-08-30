@@ -1,5 +1,5 @@
-import { FavoriteSlice } from '../types';
 import { Offer } from '../../types';
+import { FavoriteSlice } from '../types';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { fetchFavoriteAction, changeFavoriteAction } from '../api-action';
 import { NameSpace, RequestStatus } from '../../const';

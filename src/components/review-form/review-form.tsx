@@ -1,62 +1,53 @@
-import { FormEvent, useMemo, useState } from 'react';
-import { useAppSelector } from '../../hooks';
-import { getErrorStatus } from '../../store/offer/selectors';
+import { FormEvent, useEffect, useState } from 'react';
+import { useAppSelector, useAppDispatch } from '../../hooks';
+import { postReviewAction } from '../../store/api-action';
+import { clearStatus } from '../../store/offer/offer-slice';
+import { getCommentSendingStatus, getSuccessStatus } from '../../store/offer/selectors';
 import ReviewRating from '../review-rating/review-rating';
-import { toast } from 'react-toastify';
 
 type ReviewFormProps = {
-  onSubmit: (text: string, sign: number) => void;
+  id: string;
 }
 
-const MinValue = {
-  comment: 50,
-  rating: 1,
-};
+const ValidationMark = {
+  TEXT_MIN: 50,
+  TEXT_MAX: 300,
+} as const;
 
-export default function ReviewForm({onSubmit}: ReviewFormProps) {
-  const hasError = useAppSelector(getErrorStatus);
+export default function ReviewForm({id}: ReviewFormProps) {
+  const hasSuccess = useAppSelector(getSuccessStatus);
+  const isDisabled = useAppSelector(getCommentSendingStatus);
+  const dispatch = useAppDispatch();
 
-  const initialValue = {
-    rating: 0,
-    review: '',
-  };
+  const [review, setReview] = useState<string>('');
+  const [rating, setRating] = useState<number>(0);
 
-  const [formData, setFormData] = useState(initialValue);
+  const isButtonDisabled = !(rating > 0 && review.length >= ValidationMark.TEXT_MIN && review.length < ValidationMark.TEXT_MAX);
+  const handleRatingChange = (newRating: number) => setRating(newRating);
 
-  if (hasError) {
-    toast.warn('Проверьте данные формы и попробуйте отпрaвить еще раз.');
-  }
-
-  const isDisabled = useMemo(() => !(formData.review.length >= MinValue.comment && formData.rating >= MinValue.rating), [formData]);
-
-  const handleFormChange = (evt: FormEvent) => {
-    const {name, value} = evt.target as HTMLFormElement;
-    switch (name) {
-      case 'review':
-        setFormData({...formData, review: String(value)});
-        break;
-      case 'rating':
-        setFormData({...formData, rating: Number(value)});
+  useEffect(() => {
+    if (hasSuccess) {
+      setReview('');
+      setRating(0);
+      dispatch(clearStatus());
     }
-  };
+  }, [dispatch, hasSuccess]);
 
   const handleFormSubmit = (evt: FormEvent) => {
     evt.preventDefault();
-    onSubmit(formData.review, formData.rating);
-    // evt.target.reset();
-    setFormData(initialValue);
+    dispatch(postReviewAction({id: id, comment: review, rating: rating}));
   };
 
   return (
-    <form className="reviews__form form" action="#" method="post" onChange={handleFormChange} onSubmit={handleFormSubmit}>
+    <form className="reviews__form form" action="#" method="post" onSubmit={handleFormSubmit}>
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
-      <ReviewRating />
-      <textarea className="reviews__textarea form__textarea" id="review" defaultValue={formData.review} name="review" placeholder="Tell how was your stay, what you like and what can be improved" minLength={50} maxLength={300}></textarea>
+      <ReviewRating isDisabled={isDisabled} onChange={handleRatingChange} rating={rating} />
+      <textarea className="reviews__textarea form__textarea" id="review" value={review} name="review" placeholder="Tell how was your stay, what you like and what can be improved" minLength={ValidationMark.TEXT_MIN} maxLength={ValidationMark.TEXT_MAX} disabled={isDisabled} onChange={(evt) => setReview(evt.target.value)}></textarea>
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
           To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit" disabled={isDisabled}>Submit</button>
+        <button className="reviews__submit form__submit button" type="submit" disabled={isButtonDisabled || isDisabled}>Submit</button>
       </div>
     </form>
   );

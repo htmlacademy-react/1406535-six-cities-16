@@ -1,5 +1,5 @@
-import { State } from '../types';
 import { City, Offer } from '../../types';
+import { State } from '../types';
 import { NameSpace, RequestStatus } from '../../const';
 
 export const getCity = (state: State): City => state[NameSpace.Data].city;

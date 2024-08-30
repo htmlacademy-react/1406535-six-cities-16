@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getAuthStatus } from '../../store/user/selectors';
 import { getOffersStatus } from '../../store/data/selectors';
-import { fetchFavoriteAction } from '../../store/api-action';
+import { checkAuthAction, fetchOffersAction } from '../../store/api-action';
 import { AppRoute, AuthorizationStatus, RequestStatus } from '../../const';
 import PrivateRoot from '../private-root/private-root';
 import MainPage from '../../pages/main-page/main-page';
@@ -13,6 +13,7 @@ import OfferPage from '../../pages/offer-page/offer-page';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../browser-history';
+import Loader from '../loader/loader';
 
 export default function App() {
   const authStatus = useAppSelector(getAuthStatus);
@@ -20,11 +21,18 @@ export default function App() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchFavoriteAction());
-  });
+    dispatch(checkAuthAction());
+  }, []);
+
+  useEffect(() => {
+    if (authStatus !== AuthorizationStatus.Unknown) {
+      dispatch(fetchOffersAction());
+    }
+  }, [authStatus, dispatch]);
+
 
   if (authStatus === AuthorizationStatus.Unknown || isLoading === RequestStatus.Loading) {
-    return (<p>Loading ...</p>);
+    return <Loader />;
   }
 
   return (

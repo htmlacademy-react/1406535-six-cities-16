@@ -60,7 +60,7 @@ export const SortingOption = {
   PriceUp: 'Price: low to high',
   PriceDown: 'Price: high to low',
   TopRated: 'Top rated first',
-};
+} as const;
 
 export const MarkerIcon = {
   Default: '../img/pin.svg',
@@ -87,9 +87,9 @@ export enum AuthorizationStatus {
 
 export const BACKEND_ROOT = 'https://16.design.htmlacademy.pro/six-cities' as const;
 export const REQUEST_TIMEOUT = 5000 as const;
-export const AUTH_TOKEN_NAME = 'six-cities-token';
+export const AUTH_TOKEN_NAME = 'six-cities-token' as const;
 
-export enum Endpoint {
+export enum ApiRoute {
   Offers = '/offers',
   Favorite = '/favorite',
   Comments = '/comments',
@@ -98,10 +98,10 @@ export enum Endpoint {
 }
 
 export enum NameSpace {
-  Data = 'DATA',
-  Offer = 'OFFER',
-  Favorite = 'FAVORITE',
-  User = 'USER',
+  Data = 'Data',
+  Offer = 'Offer',
+  Favorite = 'Favorite',
+  User = 'User',
 }
 
 export enum RequestStatus {

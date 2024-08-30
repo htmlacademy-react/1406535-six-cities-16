@@ -1,7 +1,7 @@
 import { City, Offer, CompleteOffer, UserData, Review } from '../types';
-import { AuthorizationStatus, RequestStatus } from '../const';
 import { rootReducer } from './root-reducer';
 import store from './index';
+import { AuthorizationStatus, RequestStatus } from '../const';
 
 export type UserSlice = {
   info: UserData | null;
@@ -24,7 +24,8 @@ export type OfferSlice = {
   nearby: Offer[];
   status: RequestStatus;
   reviews: Review[];
-  hasError: boolean;
+  isCommentSending: boolean;
+  hasSuccess: boolean;
 };
 
 export type State = ReturnType<typeof store.getState>;

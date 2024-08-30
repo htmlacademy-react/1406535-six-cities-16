@@ -1,11 +1,10 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../../hooks';
-import { logoutAction } from '../../store/api-action';
 import { getUserInfo } from '../../store/user/selectors';
 import { getFavorite } from '../../store/favorite/selectors';
+import { logoutAction } from '../../store/api-action';
 import { AppRoute } from '../../const';
-import { useEffect } from 'react';
 
 export default function HeaderAuth() {
   const userInfo = useAppSelector(getUserInfo);
@@ -15,7 +14,7 @@ export default function HeaderAuth() {
 
   useEffect(() => {
     setCount(favorites.length);
-  }, [dispatch, favorites]);
+  }, [favorites]);
 
   const handleLogoutClick = () => {
     dispatch(logoutAction());
@@ -47,9 +46,9 @@ export default function HeaderAuth() {
           </Link>
         </li>
         <li className="header__nav-item" onClick={handleLogoutClick}>
-          <a className="header__nav-link">
+          <Link to="#" className="header__nav-link">
             <span className="header__signout">Sign out</span>
-          </a>
+          </Link>
         </li>
       </ul>
     </nav>

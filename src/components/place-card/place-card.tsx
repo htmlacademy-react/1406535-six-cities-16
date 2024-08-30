@@ -2,8 +2,8 @@ import { Offer } from '../../types';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { changeFavoriteAction, redirectToRoute } from '../../store/api-action';
 import { getAuthStatus } from '../../store/user/selectors';
+import { changeFavoriteAction, redirectToRoute } from '../../store/api-action';
 import { capitalizeFirstLetter } from '../../utils';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import PremiumMark from '../small-elements/premium-mark';
@@ -39,9 +39,9 @@ export default function PlaceCard({offer, classPrefix, onHover}: PlaceCardProps)
     <article className={`${classPrefix}__card place-card`} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       {isPremium && <PremiumMark classPrefix="place-card" />}
       <div className={`${classPrefix}__image-wrapper place-card__image-wrapper`}>
-        <a href="#">
+        <Link to="#">
           <img className="place-card__image" src={offer.previewImage} width={size[0]} height={size[1]} alt="Place image"/>
-        </a>
+        </Link>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">

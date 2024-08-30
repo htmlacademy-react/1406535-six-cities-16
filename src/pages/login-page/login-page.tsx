@@ -1,10 +1,9 @@
 import { useRef, FormEvent } from 'react';
-import { redirectToRoute } from '../../store/api-action';
 import { useAppDispatch } from '../../hooks';
 import { loginAction } from '../../store/api-action';
 import Header from '../../components/header/header';
-import { CITIES, AppRoute } from '../../const';
-import { setCity } from '../../store/data/data-slice';
+import { getRandomCity } from '../../utils';
+import ChangeCityLink from '../../components/small-elements/change-city-link';
 
 export default function LoginPage() {
   const loginRef = useRef<HTMLInputElement | null>(null);
@@ -20,12 +19,6 @@ export default function LoginPage() {
         password: passwordRef.current.value
       }));
     }
-  };
-
-  const randomCity = CITIES[Math.round(Math.random() * CITIES.length)];
-  const handleCityClick = () => {
-    setCity(randomCity);
-    redirectToRoute(AppRoute.Root);
   };
 
   return (
@@ -48,12 +41,8 @@ export default function LoginPage() {
               <button className="login__submit form__submit button" type="submit">Sign in</button>
             </form>
           </section>
-          <section className="locations locations--login locations--current" onClick={handleCityClick}>
-            <div className="locations__item">
-              <a className="locations__item-link">
-                <span>{randomCity.name}</span>
-              </a>
-            </div>
+          <section className="locations locations--login locations--current">
+            <ChangeCityLink city={getRandomCity().name} />
           </section>
         </div>
       </main>

@@ -1,4 +1,5 @@
 import { getNumeralEnding, capitalizeFirstLetter } from '../../utils';
+
 type OfferFeaturesListProps = {
   type: string;
   bedrooms: number;

@@ -1,7 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { NameSpace, AuthorizationStatus } from '../../const';
 import { UserSlice } from '../types';
+import { createSlice } from '@reduxjs/toolkit';
 import { checkAuthAction, loginAction, logoutAction } from '../api-action';
+import { NameSpace, AuthorizationStatus } from '../../const';
 
 const initialState: UserSlice = {
   info: null,
