@@ -13,6 +13,7 @@ import OfferPage from '../../pages/offer-page/offer-page';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../browser-history';
+import Loader from '../loader/loader';
 
 export default function App() {
   const authStatus = useAppSelector(getAuthStatus);
@@ -31,7 +32,7 @@ export default function App() {
 
 
   if (authStatus === AuthorizationStatus.Unknown || isLoading === RequestStatus.Loading) {
-    return (<p>Loading ...</p>);
+    return <Loader />;
   }
 
   return (

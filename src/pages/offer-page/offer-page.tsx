@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { getAuthStatus } from '../../store/user/selectors';
 import { getOfferstatus, getFullOffer, getNearby, getOfferReviews } from '../../store/offer/selectors';
-import { fetchOfferAction, fetchOfferNearbyAction, fetchOfferCommentsAction, changeFavoriteAction, redirectToRoute, postReviewAction } from '../../store/api-action';
+import { fetchOfferAction, fetchOfferNearbyAction, fetchOfferCommentsAction, changeFavoriteAction, redirectToRoute } from '../../store/api-action';
 import { capitalizeFirstLetter, getPoint, sortReviewsByDate } from '../../utils';
 import { MapHeight, AuthorizationStatus, RequestStatus, AppRoute } from '../../const';
 import Header from '../../components/header/header';
@@ -20,6 +20,7 @@ import HeaderAuth from '../../components/header/header-auth';
 import OfferFeaturesList from '../../components/small-elements/offer-features-list';
 import OfferHostUserInfo from '../../components/small-elements/offer-host-user-info';
 import NotFoundPage from '../not-found-page/not-found-page';
+import Loader from '../../components/loader/loader';
 
 const MaxItems = {
   nearOffers: 3,
@@ -53,7 +54,7 @@ export default function OfferPage() {
   }, [reviews]);
 
   if (isLoading === RequestStatus.Loading) {
-    return (<p>Loading ...</p>);
+    return <Loader />;
   }
 
   if (isLoading === RequestStatus.Failed || !singleOffer) {
@@ -71,10 +72,6 @@ export default function OfferPage() {
     }
     dispatch(changeFavoriteAction({id: singleOffer.id, status: favorite ? 0 : 1}));
     setFavorite(!favorite);
-  };
-
-  const handleReviewSubmit = (text: string, sign: number) => {
-    dispatch(postReviewAction({id: singleOffer.id, comment: text, rating: sign}));
   };
 
   return (
@@ -119,7 +116,7 @@ export default function OfferPage() {
               </div>
               <section className="offer__reviews reviews">
                 <ReviewsList reviews={sortedReviews} count={MaxItems.reviews}/>
-                {authStatus === AuthorizationStatus.Auth && <ReviewForm onSubmit={handleReviewSubmit} />}
+                {authStatus === AuthorizationStatus.Auth && <ReviewForm id={singleOffer.id} />}
               </section>
             </div>
           </div>

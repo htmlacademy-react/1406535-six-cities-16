@@ -8,13 +8,18 @@ const initialState: OfferSlice = {
   nearby: [],
   status: RequestStatus.Idle,
   reviews: [],
-  hasError: false,
+  isCommentSending: false,
+  hasSuccess: false,
 };
 
 export const offerSlice = createSlice({
   name: NameSpace.Offer,
   initialState,
-  reducers: {},
+  reducers: {
+    clearStatus: (state) => {
+      state.hasSuccess = false;
+    }
+  },
   extraReducers(builder) {
     builder
       .addCase(fetchOfferAction.pending, (state) => {
@@ -30,15 +35,21 @@ export const offerSlice = createSlice({
       .addCase(fetchOfferCommentsAction.fulfilled, (state, action) => {
         state.reviews = action.payload;
       })
+      .addCase(postReviewAction.pending, (state) => {
+        state.isCommentSending = true;
+      })
       .addCase(postReviewAction.rejected, (state) => {
-        state.hasError = true;
+        state.isCommentSending = false;
       })
       .addCase(postReviewAction.fulfilled, (state, action) => {
+        state.isCommentSending = false;
+        state.hasSuccess = true;
         state.reviews.push(action.payload);
-        state.hasError = false;
       })
       .addCase(fetchOfferNearbyAction.fulfilled, (state, action) => {
         state.nearby = action.payload;
       });
   }
 });
+
+export const { clearStatus } = offerSlice.actions;

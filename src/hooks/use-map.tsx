@@ -19,6 +19,7 @@ export default function useMap(mapRef: MutableRefObject<HTMLElement | null>, loc
           lng: location.longitude,
         },
         zoom: location.zoom,
+        scrollWheelZoom: false,
       });
 
       leaflet
