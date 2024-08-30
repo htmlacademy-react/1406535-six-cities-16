@@ -1,8 +1,9 @@
 import { useRef, FormEvent } from 'react';
 import { useAppDispatch } from '../../hooks';
 import { loginAction } from '../../store/api-action';
-import Header from '../../components/header/header';
 import { getRandomCity } from '../../utils';
+import { DEFAULT_CITY } from '../../const';
+import Header from '../../components/header/header';
 import ChangeCityLink from '../../components/small-elements/change-city-link';
 
 export default function LoginPage() {
@@ -21,7 +22,7 @@ export default function LoginPage() {
     }
   };
 
-  const randomCity = getRandomCity();
+  const randomCity = getRandomCity() || DEFAULT_CITY;
 
   return (
     <div className="page page--gray page--login">

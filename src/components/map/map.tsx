@@ -15,8 +15,8 @@ type MapProps = {
 
 const createMarker = (url: string) => leaflet.icon({
   iconUrl: url,
-  iconSize: [30, 40],
-  iconAnchor: [15, 40],
+  iconSize: [27, 39],
+  iconAnchor: [14, 39],
 });
 
 export default function Map({points, activePoint, height}: MapProps) {
