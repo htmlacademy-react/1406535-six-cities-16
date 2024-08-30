@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../../hooks';
-import { getUserInfo } from '../../store/user/selectors';
-import { getFavorite } from '../../store/favorite/selectors';
+import { getUserInfo } from '../../store/user-slice/selectors';
+import { getFavorite } from '../../store/favorite-slice/selectors';
 import { logoutAction } from '../../store/api-action';
 import { AppRoute } from '../../const';
 

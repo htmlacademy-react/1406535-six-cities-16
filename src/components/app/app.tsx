@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { getAuthStatus } from '../../store/user/selectors';
-import { getOffersStatus } from '../../store/data/selectors';
+import { getAuthStatus } from '../../store/user-slice/selectors';
+import { getOffersStatus } from '../../store/data-slice/selectors';
 import { checkAuthAction, fetchOffersAction } from '../../store/api-action';
 import { AppRoute, AuthorizationStatus, RequestStatus } from '../../const';
 import PrivateRoot from '../private-root/private-root';
@@ -21,10 +21,9 @@ export default function App() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(checkAuthAction());
-  }, []);
-
-  useEffect(() => {
+    if (authStatus === AuthorizationStatus.Unknown) {
+      dispatch(checkAuthAction());
+    }
     if (authStatus !== AuthorizationStatus.Unknown) {
       dispatch(fetchOffersAction());
     }
